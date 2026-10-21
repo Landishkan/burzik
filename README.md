@@ -1,75 +1,128 @@
-# React + TypeScript + Vite
+# 🐈 Бурзик — PWA тренажёр критического мышления
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Бурзик** — это Progressive Web App (PWA), созданное для профилактики экстремизма и развития медиаграмотности среди школьников и студентов. 
+Приложение использует геймифицированный подход (в стиле Duolingo) для обучения распознаванию манипуляций, проверке фактов и цифровой безопасности.
 
-Currently, two official plugins are available:
+## ✨ Ключевые особенности (MVP)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Offline-first:** Приложение полностью работает без интернета после первого открытия.
+- **Без регистрации и бэкенда:** Прогресс хранится локально в браузере (IndexedDB).
+- **Система кодов восстановления:** Вместо аккаунтов используется зашифрованный код (`BUR-XXXX-XXXX`), который содержит весь прогресс пользователя в Base64. Это позволяет переносить прогресс между устройствами и восстанавливать его после очистки браузера без сбора персональных данных.
+- **Контент-ориентированная архитектура:** Уроки и задания описываются в JSON/TS файле, движок рендерит их динамически.
 
-## React Compiler
+## 🛠 Технологический стек
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Сборка:** Vite
+- **Язык:** TypeScript
+- **UI:** React, Tailwind CSS
+- **State Management:** Zustand
+- **Local Database:** Dexie.js (обёртка над IndexedDB)
+- **PWA:** `vite-plugin-pwa` (Workbox)
 
-## Expanding the ESLint configuration
+## 🚀 Быстрый старт
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Требования
+- Node.js 18+
+- npm
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Установка и запуск
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. Клонируйте репозиторий:
+   ```bash
+   git clone <repo-url>
+   cd burzik
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Установите зависимости:
+   ```bash
+   npm install
+   ```
 
+3. Запустите режим разработки:
+   ```bash
+   npm run dev
+   ```
+   *Откройте браузер по адресу, указанному в терминале (обычно `http://localhost:5173`).*
+
+4. Сборка для продакшена (тестирование PWA и Service Worker):
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
+## 📂 Структура проекта
+
+```text
+src/
+├── components/      # Компоненты UI и типы заданий (Scenario, Order)
+├── screens/         # Экраны приложения (Home, Lesson, Result, Profile, Recovery)
+├── content.ts       # ⚠️ ВСЕ УРОКИ И ЗАДАНИЯ. Добавлять новый контент сюда.
+├── db.ts            # Настройка Dexie (схема IndexedDB)
+├── recovery.ts      # Логика генерации и парсинга кодов восстановления (Base64)
+├── store.ts         # Zustand стор (текущий экран, навигация)
+├── App.tsx          # Роутинг экранов
+└── main.tsx         # Точка входа
+public/
+── burzik.png       # Маскот приложения
+├── icon-192.png     # Иконки для PWA manifest
+└── icon-512.png
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## 📝 Как добавлять контент
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Вся методическая часть находится в файле `src/content.ts`. 
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Типы заданий
+На данный момент поддерживаются два типа заданий (Union-тип `Task`):
 
+1. **`scenario`** — выбор одного варианта ответа из списка.
+   ```ts
+   {
+     type: 'scenario',
+     prompt: 'Текст задания...',
+     options: [
+       { id: 'a', text: 'Вариант 1', correct: true, feedback: 'Правильно!' },
+       { id: 'b', text: 'Вариант 2', correct: false, feedback: 'Мимо.' }
+     ],
+     explanation: 'Общий разбор ситуации.'
+   }
+   ```
+
+2. **`order`** — расстановка шагов в правильном порядке.
+   ```ts
+   {
+     type: 'order',
+     prompt: 'Расставь шаги...',
+     steps: ['Шаг 1', 'Шаг 2', 'Шаг 3'], // Правильный порядок
+     feedbackCorrect: '...',
+     feedbackWrong: '...'
+   }
+   ```
+
+Чтобы добавить новый урок, просто добавьте объект в массив `lessons` внутри нужного `Module`. Движок сам отрисует его на дорожке.
+
+## 🔐 Безопасность и данные
+
+- Приложение **не собирает** ФИО, email, телефоны или любые другие ПДн.
+- Идентификация пользователя происходит через анонимный локальный ID.
+- Коды восстановления (`BUR-...`) содержат только ID пройденных уроков, timestamp и количество очков. Они не содержат контекста переписок или личных данных.
+
+## 🗺 Планы развития (Roadmap)
+
+- [ ] Добавление серверной части (синхронизация прогресса, аналитика для педагогов).
+- [ ] Интеграция с LMS / школьными порталами.
+- [ ] Новые типы заданий (drag-and-drop, поиск ошибок в тексте).
+- [ ] Адаптация под разные возрастные группы (треки "Школа" и "Вуз").
 ```
+
+***
+
+### Совет перед коммитом:
+Убедись, что в твоем `.gitignore` есть папка `node_modules` и `dist`, чтобы не загружать мусор в репозиторий. Если их нет, создай файл `.gitignore` в корне и добавь туда:
+```text
+node_modules
+dist
+.DS_Store
+*.local
+```
+
