@@ -1,7 +1,9 @@
 import { useStore } from '../store'
 import { Scenario } from '../components/Scenario'
-import { db } from '../db'
 import { Order } from '../components/Order'
+import { TrueFalse } from '../components/TrueFalse' // 👈 1. Добавляем импорт
+import { db } from '../db'
+
 export function Lesson() {
   const { screen, setScreen } = useStore()
   if (screen.name !== 'lesson') return null
@@ -14,7 +16,6 @@ export function Lesson() {
     const nextIndex = taskIndex + 1
 
     if (nextIndex >= lesson.tasks.length) {
-      // сохраняем прогресс
       db.progress.put({
         id: lesson.id,
         completedAt: Date.now(),
@@ -37,9 +38,26 @@ export function Lesson() {
     }
   }
 
+  // 👈 2. Определяем компонент через switch ДО return
+  let TaskComponent
+  switch (task.type) {
+    case 'scenario':
+      TaskComponent = <Scenario key={taskIndex} task={task} onAnswer={handleAnswer} />
+      break
+    case 'order':
+      TaskComponent = <Order key={taskIndex} task={task} onAnswer={handleAnswer} />
+      break
+    case 'true-false':
+      TaskComponent = <TrueFalse key={taskIndex} task={task} onAnswer={handleAnswer} />
+      break
+    default:
+      // TypeScript здесь поймёт, что все типы исчерпаны, но для безопасности:
+      TaskComponent = <div className="text-red-400 p-4">Неизвестный тип задания</div>
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
-           <header className="p-4 flex items-center gap-4">
+    <div className="min-h-screen bg-slate-900 flex flex-col"> {/* 👈 Добавил bg-slate-900 для консистентности темы */}
+      <header className="p-4 flex items-center gap-4">
         <button
           onClick={() => setScreen({ name: 'home' })}
           className="text-slate-400 hover:text-white p-2"
@@ -57,14 +75,10 @@ export function Lesson() {
         </div>
       </header>
 
-       <div className="flex-1">
-  {task.type === 'scenario' && (
-    <Scenario key={taskIndex} task={task} onAnswer={handleAnswer} />
-  )}
-  {task.type === 'order' && (
-    <Order key={taskIndex} task={task} onAnswer={handleAnswer} />
-  )}
-</div>
+      {/* 👈 3. Рендерим выбранный компонент */}
+      <div className="flex-1 p-4 flex flex-col justify-center">
+        {TaskComponent}
+      </div>
     </div>
   )
 }

@@ -14,6 +14,21 @@ export function Profile() {
   const totalXP = progress.reduce((sum, p) => sum + p.score * 10, 0)
   const completedCount = progress.length
 
+  const handleResetProgress = async () => {
+    const isConfirmed = window.confirm(
+      'Ты уверен? Весь прогресс и текущий код восстановления будут удалены безвозвратно. Это действие нельзя отменить.'
+    )
+    
+    if (isConfirmed) {
+      // Очищаем таблицу progress в IndexedDB
+      await db.progress.clear()
+      // Обновляем локальное состояние, чтобы UI мгновенно отреагировал
+      setProgress([])
+      // Если в store есть состояние текущего урока, его тоже стоит сбросить (опционально)
+      // useStore.getState().resetLesson() 
+    }
+  }
+
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col pb-24">
       {/* Шапка */}
@@ -36,11 +51,30 @@ export function Profile() {
           </div>
         </div>
 
+        {/* Кнопки действий */}
+        <div className="space-y-3">
+          <button
+            onClick={() => setScreen({ name: 'recovery' })}
+            className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-sky-400 font-bold rounded-2xl border border-slate-700 transition-all flex items-center justify-center gap-2"
+          >
+            <span>🔑</span> Восстановить прогресс по коду
+          </button>
+          
+          <button
+            onClick={handleResetProgress}
+            className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 font-bold rounded-2xl border border-red-500/30 transition-all flex items-center justify-center gap-2"
+          >
+            <span>🗑</span> Сбросить весь прогресс
+          </button>
+        </div>
+
         {/* Пройденные уроки */}
         <div>
           <h2 className="text-lg font-bold text-white mb-3">Пройденные уроки</h2>
           {progress.length === 0 ? (
-            <p className="text-slate-500 text-center py-4">Пока ничего не пройдено. Начни обучение!</p>
+            <p className="text-slate-500 text-center py-4 bg-slate-800/50 rounded-2xl border border-slate-800">
+              Пока ничего не пройдено. Начни обучение!
+            </p>
           ) : (
             <div className="space-y-2">
               {progress.map((p) => {
@@ -63,11 +97,11 @@ export function Profile() {
         </div>
       </main>
 
-      {/* Нижняя навигация */}
+      {/* Нижняя навигация (только переключатели экранов) */}
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around p-3 z-20">
         <button 
           onClick={() => setScreen({ name: 'home' })}
-          className="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300"
+          className="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           <span className="text-xs font-bold">Учить</span>
@@ -75,13 +109,6 @@ export function Profile() {
         <button className="flex flex-col items-center gap-1 text-sky-500">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <span className="text-xs font-bold">Профиль</span>
-        </button>
-             {/* Кнопка восстановления */}
-        <button
-          onClick={() => setScreen({ name: 'recovery' })}
-          className="w-full py-3 mt-4 bg-slate-800 hover:bg-slate-700 text-sky-400 font-bold rounded-2xl border border-slate-700 transition-all"
-        >
-          🔑 Восстановить прогресс по коду
         </button>
       </nav>
     </div>

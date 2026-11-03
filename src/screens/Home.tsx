@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useStore } from '../store'
 import { modules, allLessons } from '../content'
 import { db, type LessonProgress } from '../db'
-
+import { PwaInstallPrompt } from '../components/PwaInstallPrompt'
 export function Home() {
   const { setScreen } = useStore()
   const [progress, setProgress] = useState<LessonProgress[]>([])
@@ -134,6 +134,7 @@ export function Home() {
           <span className="text-xs font-bold">Профиль</span>
         </button>
       </nav>
+       <PwaInstallPrompt />
     </div>
   )
 }

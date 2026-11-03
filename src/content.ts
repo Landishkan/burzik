@@ -1,5 +1,4 @@
 // === Общие типы ===
-
 export interface Option {
   id: string
   text: string
@@ -22,7 +21,17 @@ export interface OrderTask {
   feedbackWrong: string
 }
 
-export type Task = ScenarioTask | OrderTask
+// 🆕 Новый тип задания: Верно / Неверно
+export interface TrueFalseTask {
+  type: 'true-false'
+  statement: string // Утверждение для оценки
+  isTrue: boolean   // Правильный ответ (true или false)
+  feedbackCorrect: string // Объяснение, если пользователь ответил верно
+  feedbackWrong: string    // Объяснение, если пользователь ошибся
+}
+
+// Обновлённый union-тип теперь включает все три варианта
+export type Task = ScenarioTask | OrderTask | TrueFalseTask
 
 export interface Lesson {
   id: string
@@ -41,7 +50,6 @@ export interface Module {
 }
 
 // === Контент ===
-
 export const modules: Module[] = [
   {
     id: 'mod-1',
@@ -181,6 +189,14 @@ export const modules: Module[] = [
             ],
             explanation:
               'Если текст вызывает гнев, страх или эйфорию — это не случайность. Это инструмент воздействия.',
+          },
+          // 🆕 Пример нового типа задания
+          {
+            type: 'true-false',
+            statement: 'Если новость вызывает у тебя сильный гнев или страх, это повышает вероятность того, что это манипуляция.',
+            isTrue: true,
+            feedbackCorrect: 'Именно! Манипуляторы специально давят на эмоции, чтобы отключить твоё критическое мышление.',
+            feedbackWrong: 'На самом деле это так. Сильные эмоции — это красный флаг. Всегда бери паузу, прежде чем реагировать.',
           },
         ],
       },
