@@ -33,13 +33,16 @@ export interface TrueFalseTask {
 // Обновлённый union-тип теперь включает все три варианта
 export type Task = ScenarioTask | OrderTask | TrueFalseTask
 
+// 👇 Добавляем тип Track ПЕРЕД использованием в Lesson
+export type Track = 'school' | 'university' | 'both'
+
 export interface Lesson {
   id: string
   title: string
   description: string
+  track?: Track // 👈 Опциональное поле: для какого трека урок
   tasks: Task[]
 }
-
 // === Новый тип: Раздел (Модуль) ===
 export interface Module {
   id: string

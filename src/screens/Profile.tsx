@@ -12,26 +12,19 @@ export function Profile() {
   }, [])
 
   const totalXP = progress.reduce((sum, p) => sum + p.score * 10, 0)
-  const completedCount = progress.length
 
   const handleResetProgress = async () => {
     const isConfirmed = window.confirm(
-      'Ты уверен? Весь прогресс и текущий код восстановления будут удалены безвозвратно. Это действие нельзя отменить.'
+      'Ты уверен? Весь прогресс и текущий код восстановления будут удалены безвозвратно.'
     )
-    
     if (isConfirmed) {
-      // Очищаем таблицу progress в IndexedDB
       await db.progress.clear()
-      // Обновляем локальное состояние, чтобы UI мгновенно отреагировал
       setProgress([])
-      // Если в store есть состояние текущего урока, его тоже стоит сбросить (опционально)
-      // useStore.getState().resetLesson() 
     }
   }
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col pb-24">
-      {/* Шапка */}
       <header className="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 p-4">
         <h1 className="text-2xl font-bold text-white">Профиль</h1>
       </header>
@@ -51,7 +44,7 @@ export function Profile() {
           </div>
         </div>
 
-        {/* Кнопки действий */}
+        {/* Кнопки действий (вынесены из nav!) */}
         <div className="space-y-3">
           <button
             onClick={() => setScreen({ name: 'recovery' })}
@@ -97,7 +90,7 @@ export function Profile() {
         </div>
       </main>
 
-      {/* Нижняя навигация (только переключатели экранов) */}
+      {/* Нижняя навигация (ТОЛЬКО иконки) */}
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex justify-around p-3 z-20">
         <button 
           onClick={() => setScreen({ name: 'home' })}

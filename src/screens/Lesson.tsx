@@ -1,8 +1,9 @@
 import { useStore } from '../store'
 import { Scenario } from '../components/Scenario'
 import { Order } from '../components/Order'
-import { TrueFalse } from '../components/TrueFalse' // 👈 1. Добавляем импорт
+import { TrueFalse } from '../components/TrueFalse' 
 import { db } from '../db'
+import { trackEvent } from '../analytics'
 
 export function Lesson() {
   const { screen, setScreen } = useStore()
@@ -14,7 +15,12 @@ export function Lesson() {
   function handleAnswer(isCorrect: boolean) {
     const nextCorrect = correct + (isCorrect ? 1 : 0)
     const nextIndex = taskIndex + 1
-
+trackEvent({ 
+  event: 'task_answered', 
+  lessonId: lesson.id, 
+  taskType: task.type, 
+  isCorrect 
+})
     if (nextIndex >= lesson.tasks.length) {
       db.progress.put({
         id: lesson.id,

@@ -14,8 +14,10 @@ export function Home() {
   // Собираем ID пройденных уроков
   const completedIds = new Set(progress.map((p) => p.id))
   
-  // Находим глобальный индекс первого непройденного урока
-  const activeIndex = allLessons.findIndex((l) => !completedIds.has(l.id))
+ const { userTrack } = useStore()
+// Фильтруем уроки: показываем, если track совпадает или равен 'both'
+const availableLessons = allLessons.filter(l => !l.track || l.track === 'both' || l.track === userTrack)
+const activeIndex = availableLessons.findIndex((l) => !completedIds.has(l.id))
 
   // Смещения для эффекта "змейки"
   const offsets = [0, 45, 70, 45, 0, -45, -70, -45]

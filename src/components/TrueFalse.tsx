@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TrueFalseTask } from '../content';
+import type { TrueFalseTask } from '../content';
 
 interface TrueFalseProps {
   task: TrueFalseTask;
