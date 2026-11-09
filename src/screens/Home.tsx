@@ -27,7 +27,7 @@ const activeIndex = availableLessons.findIndex((l) => !completedIds.has(l.id))
       {/* Шапка */}
       <header className="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 p-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <img src="/burzik.png" alt="Бурзик" className="w-8 h-8 rounded-full" />
+          <img src="/burzik/burzik.png" alt="Бурзик" className="w-8 h-8 rounded-full" />
           <h1 className="text-xl font-bold text-white">Бурзик</h1>
         </div>
         <div className="flex items-center gap-2 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
