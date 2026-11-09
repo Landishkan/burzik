@@ -462,6 +462,22 @@ body[data-screen="lenta"] .toast, body[data-screen="rumors"] .toast { bottom: ca
 .rm-explain.lost { background: var(--no-bg); border-color: var(--bad); }
 .rm-explain .cta { margin-top: 12px; }
 
+/* Профиль */
+.pf-card { padding: 14px; border-radius: var(--radius); background: var(--card); border: 1px solid var(--line); }
+.pf-card p { margin: 0 0 12px; font-size: 14px; line-height: 1.45; color: var(--muted); font-weight: 600; }
+.pf-code { display: block; width: 100%; margin-top: 10px; padding: 12px; border-radius: 12px; font-family: "PT Mono", monospace; font-size: 15px; word-break: break-all; text-align: center; background: var(--card-hi); border: 1.5px dashed var(--accent); color: var(--text); }
+.pf-input { width: 100%; padding: 14px; border-radius: 14px; border: 2px solid var(--line); background: var(--card-hi); color: var(--text); font: 600 16px "PT Mono", monospace; outline: none; }
+.pf-input:focus { border-color: var(--accent); }
+.pf-status { min-height: 8px; margin: 8px 0; font-size: 14px; font-weight: 800; }
+.pf-status.ok { color: var(--good); } .pf-status.err { color: var(--bad); } .pf-status.warn { color: var(--hi); }
+.cta:disabled { opacity: .45; }
+.pf-list { display: grid; gap: 8px; }
+.pf-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); font-size: 14px; font-weight: 700; }
+.pf-item span { color: var(--muted); white-space: nowrap; }
+.pf-empty { color: var(--muted); font-size: 14px; text-align: center; padding: 10px; }
+.pf-reset { color: var(--bad); margin: 18px 0 8px; }
+[data-theme="retro"] .pf-card, [data-theme="retro"] .pf-input, [data-theme="retro"] .pf-item, [data-theme="retro"] .pf-code { border-radius: 0; }
+
 /* Улица фонарей */
 #street { margin: 0 -16px; }
 .street-head { text-align: center; padding: 0 16px; }
@@ -511,7 +527,7 @@ body[data-screen="lenta"] .toast, body[data-screen="rumors"] .toast { bottom: ca
 .back-street { flex: none; align-self: flex-start; font-weight: 800; font-size: 15px; color: var(--muted); padding: 4px 6px; }
 
 /* Нижнее меню */
-.tabbar { display: none; flex: none; grid-template-columns: repeat(3, 1fr); margin: 8px -16px calc(-16px - env(safe-area-inset-bottom)); padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 88%, transparent); }
+.tabbar { display: none; flex: none; grid-template-columns: repeat(4, 1fr); margin: 8px -16px calc(-16px - env(safe-area-inset-bottom)); padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 88%, transparent); }
 body.tabs .tabbar { display: grid; }
 .tabbar button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px; color: var(--muted); font-size: 11.5px; font-weight: 800; border-radius: 12px; }
 .tabbar em { font-style: normal; font-size: 22px; filter: grayscale(1); opacity: .6; transition: all .2s; }
@@ -755,6 +771,11 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
     <path d="M10.5 7 H21.5 L19.5 16 H12.5 Z" fill="#ffe6a8" stroke="#2b1d14" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M8.5 7.5 L16 2 L23.5 7.5 Z" fill="#4a4460" stroke="#2b1d14" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M13 9.5 L14 13" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-user" viewBox="0 0 32 32"><g stroke="#2b1d14" stroke-width="2.2" stroke-linejoin="round">
+    <path d="M5 29 C5 21.5 10 18 16 18 C22 18 27 21.5 27 29 Z" fill="var(--hi)"/>
+    <path d="M9.5 9 L9 3 L13.5 6 M22.5 9 L23 3 L18.5 6" fill="var(--accent)"/>
+    <circle cx="16" cy="11" r="7" fill="var(--accent)"/>
+    <circle cx="13.3" cy="10.6" r="1.1" fill="#2b1d14" stroke="none"/><circle cx="18.7" cy="10.6" r="1.1" fill="#2b1d14" stroke="none"/></g></symbol>
   <symbol id="hat" viewBox="0 0 120 120">
     <path d="M24 36 Q26 4 60 4 Q94 4 96 36 Z" fill="#8a6440"/>
     <path d="M40 8 Q60 2 80 8 M32 20 Q60 12 88 20" fill="none" stroke="#6b4a2e" stroke-width="2"/>
@@ -817,6 +838,36 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
       <div class="spacer"></div>
     </div>
     <button class="cta" id="leNext">Дальше</button>
+    <button class="ghost" id="leCode">Получить код прогресса</button>
+  </section>
+
+  <!-- Профиль: прогресс и код восстановления, как в исходном «Бурзике» -->
+  <section class="screen" id="profile">
+    <div class="scroll">
+      <svg class="cat cat-svg" viewBox="0 0 140 160"></svg>
+      <h1>Профиль</h1>
+      <div class="stats">
+        <div class="stat"><b id="pfXp">0</b><span>опыта</span></div>
+        <div class="stat"><b id="pfDone">0</b><span>уроков</span></div>
+        <div class="stat"><b id="pfLit">1</b><span>фонарей</span></div>
+      </div>
+      <div class="section-title">Код прогресса</div>
+      <div class="pf-card">
+        <p>Код хранит пройденные уроки. С ним можно вернуть прогресс на другом телефоне или после очистки браузера. Личных данных в нём нет.</p>
+        <button class="cta" id="pfGet">Получить код</button>
+        <button class="pf-code" id="pfCode" hidden></button>
+      </div>
+      <div class="section-title">Восстановить прогресс по коду</div>
+      <div class="pf-card">
+        <p>Если ты менял устройство или очищал браузер, введи свой код, чтобы вернуть прогресс.</p>
+        <input class="pf-input" id="pfInput" type="text" placeholder="BUR-xxxx-xxxx" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <div class="pf-status" id="pfStatus"></div>
+        <button class="cta" id="pfRestore" disabled>Восстановить</button>
+      </div>
+      <div class="section-title">Пройденные уроки</div>
+      <div class="pf-list" id="pfList"></div>
+      <button class="ghost pf-reset" id="pfReset">Сбросить весь прогресс</button>
+    </div>
   </section>
 
   <!-- Общие экраны дел -->
@@ -1062,6 +1113,7 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
   <nav class="tabbar" id="tabbar">
     <button data-tab="path"><em><svg class="ic"><use href="#i-home"/></svg></em><span>Учиться</span></button>
     <button data-tab="street"><em><svg class="ic"><use href="#i-lantern"/></svg></em><span>Улица</span></button>
+    <button data-tab="profile"><em><svg class="ic"><use href="#i-user"/></svg></em><span>Профиль</span></button>
     <button data-tab="collection"><em><svg class="ic"><use href="#i-gift"/></svg></em><span>Коллекция</span></button>
   </nav>
 </main>
@@ -1404,7 +1456,7 @@ function loop(ts) {
   requestAnimationFrame(loop);
 }
 
-const TABS = ['path', 'street', 'collection'];
+const TABS = ['path', 'street', 'profile', 'collection'];
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
   document.body.classList.toggle('tabs', TABS.includes(id));
@@ -1477,6 +1529,7 @@ function goTab(id) {
   stopGames();
   if (id === 'path') renderPath();
   if (id === 'street') buildStreet();
+  if (id === 'profile') renderProfile();
   if (id === 'home') {
     const h = new Date().getHours();
     $('greet').textContent = h < 6 ? 'Не спится, детектив?' : h < 12 ? 'Доброе утро, детектив' : h < 18 ? 'Добрый день, детектив' : 'Добрый вечер, детектив';
@@ -1561,7 +1614,7 @@ document.querySelector('.board').addEventListener('click', onTap);
 const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 function makeCode() {
   const part = () => Array.from({ length: 4 }, () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]).join('');
-  return 'BUR-' + part() + '-' + part();
+  return 'SKIN-' + part() + '-' + part();
 }
 function rollRarity() {
   const pity = store.get('pity', 0);
@@ -2200,6 +2253,74 @@ function tSpot(t, b, token) {
     }
   };
 }
+
+/* Профиль и код прогресса. Формат кода такой же, как в исходном «Бурзике»:
+   список пройденных уроков { id, completedAt, score, total } в JSON, затем base64 кусками по 4 символа */
+function progressList() {
+  const d = store.get('lessonsDone', {});
+  return Object.entries(d).map(([id, v]) => ({ id, completedAt: v.at, score: v.score, total: v.total }));
+}
+function generateCode(list) {
+  try { return 'BUR-' + (btoa(JSON.stringify(list)).match(/.{1,4}/g) || []).join('-'); } catch (e) { return 'BUR-ERROR'; }
+}
+function restoreCode(code) {
+  try {
+    const clean = code.replace('BUR-', '').replace(/-/g, '').trim();
+    if (!clean) return null;
+    const arr = JSON.parse(atob(clean + '='.repeat((4 - clean.length % 4) % 4)));
+    return Array.isArray(arr) ? arr : null;
+  } catch (e) { return null; }
+}
+function renderProfile() {
+  const list = progressList();
+  $('pfXp').textContent = list.reduce((s, p) => s + p.score * 10, 0);
+  $('pfDone').textContent = list.length;
+  $('pfLit').textContent = 1 + ['c1', 'c2', 'c3', 'c4'].filter(k => store.get('solved', []).includes(k)).length;
+  const lessons = MODULES.flatMap(m => m.lessons);
+  $('pfList').innerHTML = list.length
+    ? list.map(p => { const l = lessons.find(x => x.id === p.id); return l ? `<div class="pf-item">${esc(l.title)}<span>${p.score}/${p.total} · ${new Date(p.completedAt).toLocaleDateString('ru-RU')}</span></div>` : ''; }).join('')
+    : '<div class="pf-empty">Пока ничего не пройдено. Начни обучение!</div>';
+  $('pfStatus').textContent = ''; $('pfStatus').className = 'pf-status';
+}
+function showMyCode() {
+  const code = generateCode(progressList());
+  $('pfCode').textContent = code;
+  $('pfCode').hidden = false;
+  sfx.combo(2); vibe(15);
+}
+$('pfGet').onclick = showMyCode;
+$('pfCode').onclick = () => {
+  const t = $('pfCode').textContent;
+  try { navigator.clipboard.writeText(t).then(() => toast('Код скопирован'), () => toast('Выдели код и скопируй вручную')); } catch (e) { toast('Выдели код и скопируй вручную'); }
+};
+$('pfInput').addEventListener('input', () => { $('pfRestore').disabled = $('pfInput').value.length < 5; $('pfStatus').textContent = ''; $('pfStatus').className = 'pf-status'; });
+$('pfRestore').onclick = () => {
+  const arr = restoreCode($('pfInput').value);
+  const st = $('pfStatus');
+  if (arr === null) { st.textContent = 'Код не подошёл. Проверь, нет ли опечатки.'; st.className = 'pf-status err'; sfx.no(); vibe([40, 50, 40]); return; }
+  const known = MODULES.flatMap(m => m.lessons).map(l => l.id);
+  const valid = arr.filter(p => p && known.includes(p.id));
+  if (!valid.length) { st.textContent = 'Код верный, но в нём нет пройденных уроков.'; st.className = 'pf-status warn'; return; }
+  const done = {};
+  valid.forEach(p => done[p.id] = { score: p.score, total: p.total, at: p.completedAt });
+  store.set('lessonsDone', done);
+  // шаг на дорожке: сразу после самого дальнего пройденного урока
+  let step = 0;
+  pathNodes().forEach((n, i) => { if (n.lesson && done[n.lesson.id]) step = i + 1; });
+  store.set('step', step);
+  st.textContent = 'Прогресс восстановлен!'; st.className = 'pf-status ok';
+  sfx.win(); vibe([30, 60, 30]);
+  setTimeout(() => goTab('path'), 1500);
+};
+$('pfReset').onclick = () => {
+  if (!window.confirm('Ты уверен? Весь прогресс и текущий код восстановления будут удалены безвозвратно.')) return;
+  ['lessonsDone', 'solved', 'litSeen'].forEach(k => store.set(k, k === 'lessonsDone' ? {} : []));
+  store.set('step', 0);
+  $('pfCode').hidden = true;
+  renderProfile();
+  toast('Прогресс сброшен');
+};
+$('leCode').onclick = () => { goTab('profile'); showMyCode(); };
 
 /* Общие экраны дел: вступление и финал */
 const INTROS = {
