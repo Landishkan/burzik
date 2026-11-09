@@ -31,7 +31,7 @@ export interface TrueFalseTask {
 }
 
 // Обновлённый union-тип теперь включает все три варианта
-export type Task = ScenarioTask | OrderTask | TrueFalseTask
+export type Task = ScenarioTask | OrderTask | TrueFalseTask | ChatDialogTask | SwipeTask  | SpotTheFlagTask
 
 // 👇 Добавляем тип Track ПЕРЕД использованием в Lesson
 export type Track = 'school' | 'university' | 'both'
@@ -165,6 +165,7 @@ export const modules: Module[] = [
           },
         ],
       },
+      
       {
         id: 'verify-02',
         title: 'Эмоции vs Факты',
@@ -247,9 +248,199 @@ export const modules: Module[] = [
           },
         ],
       },
+      
     ],
   },
+  {
+  id: 'mod-3',
+  title: 'Раздел 3: Путь в кроличью нору',
+  description: 'Как выглядит постепенное втягивание в опасные сообщества',
+  color: 'bg-purple-600',
+  lessons: [
+    {
+      id: 'rabbit-01',
+      title: 'Вербовщик в игровом чате',
+      description: 'Распознай манипуляцию в реальной переписке',
+      tasks: [
+        {
+          type: 'chat',
+          title: 'Разговор в игровом чате',
+          otherName: 'NeoMaster_777',
+          otherAvatar: '🎮',
+          accentColor: 'bg-purple-600',
+          steps: [
+            {
+              incomingMessage: 'Привет! Видел, как ты сегодня тащил катку. Ты реально один из немногих, кто здесь понимает игру на уровне 🧠',
+              choices: [
+                { id: 'a', text: 'Спасибо, стараюсь 😎', correct: false, feedback: 'Лесть принята. Манипулятор получил сигнал: тебе приятно внимание. Давление продолжится.' },
+                { id: 'b', text: 'Кто ты? Откуда знаешь мои катки?', correct: false, feedback: 'Хороший вопрос, но ты всё равно вступил в диалог. Манипулятор уже получил контакт.' },
+                { id: 'c', text: 'Не отвечу. Неизвестные люди в чате — это риск', correct: true, feedback: 'Верно. Игнор незнакомцев в публичных чатах — базовая цифровая гигиена.' },
+              ],
+            },
+            {
+              incomingMessage: 'Слушай, у нас есть закрытый чат для элиты. Обычные игроки там — серая масса, они ничего не понимают. Мы обсуждаем вещи, которые другие не поймут. Заходишь?',
+              choices: [
+                { id: 'a', text: 'Звучит интересно, а что вы обсуждаете?', correct: false, feedback: 'Ты попался на крючок «исключительности». «Серая масса» vs «мы» — классический приём разделения.' },
+                { id: 'b', text: 'Нет, спасибо. В закрытые чаты не хожу', correct: true, feedback: 'Чёткий отказ. Ты не обязан никому ничего доказывать.' },
+                { id: 'c', text: 'А кто там ещё есть? Может, кого знаю', correct: false, feedback: 'Ты пытаешься найти «социальное доказательство». Но манипуляторы часто выдумывают участников.' },
+              ],
+            },
+            {
+              incomingMessage: 'Ты что, серьёзно? Все вокруг — овцы. Школа, родители, учителя — это система подавления. Только мы видим реальность. Если ты с нами — нужно пройти верификацию. Скинь фото паспорта, это для своих 🔐',
+              choices: [
+                { id: 'a', text: 'Ладно, сейчас скину', correct: false, feedback: '🚨 КРАСНЫЙ ФЛАГ. Никакой «закрытый чат» не требует паспорт. Это либо мошенничество, либо вербовка.' },
+                { id: 'b', text: 'Паспорт не отправляю. И вообще, прекращаю общение. Скриншот сохраню и расскажу взрослому', correct: true, feedback: 'Идеально. Отказ → блокировка → фиксация → опора на близкого человека. Это алгоритм защиты.' },
+                { id: 'c', text: 'Вы что, психи? Я в полицию заявлю!', correct: false, feedback: 'Эмоциональная реакция — это то, чего добивается манипулятор. Лучше просто заблокировать и рассказать близким.' },
+              ],
+            },
+          ],
+          finalExplanation:
+            'В этой переписке были все 4 классических приёма вербовки: 1) лесть («ты особенный»), 2) изоляция («остальные — серая масса»), 3) конспирология («мы видим реальность»), 4) запрос личных данных под предлогом «верификации». Если узнал такую схему — немедленно прекращай контакт и расскажи тому, кому доверяешь.',
+        },
+      ],
+    },
+    
+  ],
+},
+{
+  id: 'mod-4',
+  title: 'Раздел 4: Быстрая разминка',
+  description: 'Тренируй интуицию: красный флаг или безопасно?',
+  color: 'bg-amber-600',
+  lessons: [
+    {
+      id: 'swipe-01',
+      title: 'Разминка: маркеры манипуляции',
+      description: '10 ситуаций — определи, где опасность',
+      tasks: [
+        {
+          type: 'swipe',
+          title: 'Красный флаг или безопасно?',
+          cards: [
+            {
+              id: 's1',
+              statement: '«СРОЧНО! Перешли всем, пока не удалили!»',
+              isRedFlag: true,
+              explanation: 'Искусственная срочность + призыв к немедленному действию = классический маркер манипуляции.',
+            },
+            {
+              id: 's2',
+              statement: 'Ссылка на официальный сайт министерства образования',
+              isRedFlag: false,
+              explanation: 'Официальные источники — это нормально. Но всегда проверяй URL.',
+            },
+            {
+              id: 's3',
+              statement: '«Ты один из немногих, кто понимает. Остальные — серая масса»',
+              isRedFlag: true,
+              explanation: 'Лесть + разделение на «своих» и «чужих» = приём вербовки.',
+            },
+            {
+              id: 's4',
+              statement: 'Статья на сайте известного издания с датой и автором',
+              isRedFlag: false,
+              explanation: 'Публичный источник с авторством — признак надёжности.',
+            },
+            {
+              id: 's5',
+              statement: '«Скинь фото паспорта для верификации в закрытом чате»',
+              isRedFlag: true,
+              explanation: 'Запрос личных данных под предлогом «верификации» = мошенничество или вербовка.',
+            },
+          ],
+          feedbackCorrect: 'Отлично! Ты распознаёшь основные маркеры манипуляции.',
+          feedbackWrong: 'Неплохо, но стоит повторить основные приёмы воздействия.',
+        },
+      ],
+    },
+  ],
+  
+},
+  {
+    id: 'mod-5',
+    title: 'Раздел 4: Охота на манипуляции',
+    description: 'Находи скрытые маркеры в текстах',
+    color: 'bg-purple-600',
+    lessons: [
+      {
+        id: 'spot-01', // 👈 ВОТ ГДЕ ВСТАВЛЯТЬ УРОК!
+        title: 'Найди манипуляцию в посте',
+        description: 'Кликай на подозрительные фразы',
+        tasks: [
+          {
+            type: 'spot-the-flag',
+            title: 'Разоблачи манипулятора',
+            fullText: '',
+            phrases: [
+              { id: 'p1', text: 'СРОЧНО!', isFlag: true, explanation: 'Искусственная срочность' },
+              { id: 'p2', text: 'Все скрывают правду,', isFlag: true, explanation: 'Конспирология' },
+              { id: 'p3', text: 'только мы говорим как есть.', isFlag: true, explanation: 'Разделение на «своих» и «чужих»' },
+              { id: 'p4', text: 'Перешли всем,', isFlag: true, explanation: 'Призыв к немедленному действию' },
+              { id: 'p5', text: 'пока не удалили!', isFlag: true, explanation: 'Давление через страх потери' },
+            ],
+            feedbackCorrect: 'Отлично! Ты нашёл все маркеры: срочность, конспирология, разделение, призыв к действию.',
+            feedbackWrong: 'Не все флаги найдены. Попробуй ещё раз.',
+          },
+        ],
+      },
+    ],
+  }
 ]
+// ... существующие типы Option, ScenarioTask, OrderTask, TrueFalseTask ...
 
+// 🆕 Типы для чат-симулятора
+export interface ChatChoice {
+  id: string
+  text: string
+  correct: boolean
+  feedback: string
+}
+
+export interface ChatStep {
+  incomingMessage: string // сообщение от собеседника
+  choices: ChatChoice[]
+}
+
+export interface ChatDialogTask {
+  type: 'chat'
+  title: string // заголовок сценария (например, «Разговор в игровом чате»)
+  otherName: string // имя собеседника
+  otherAvatar: string // эмодзи или инициал
+  accentColor: string // цвет пузырей собеседника (например, 'bg-purple-600')
+  steps: ChatStep[]
+  finalExplanation: string // итоговый разбор
+}
+
+// 🆕 Тип для свайп-оценки
+export interface SwipeCard {
+  id: string
+  statement: string // ситуация или утверждение
+  isRedFlag: boolean // true = красный флаг (свайп влево), false = безопасно (свайп вправо)
+  explanation: string // почему это так
+}
+
+export interface SwipeTask {
+  type: 'swipe'
+  title: string // заголовок задания
+  cards: SwipeCard[]
+  feedbackCorrect: string // общий фидбек при успехе
+  feedbackWrong: string // общий фидбек при ошибке
+}
+// 🆕 Тип для поиска манипуляции
+export interface FlagPhrase {
+  id: string
+  text: string // фраза в тексте
+  isFlag: boolean // true = это маркер манипуляции
+  explanation: string // почему это флаг
+}
+
+export interface SpotTheFlagTask {
+  type: 'spot-the-flag'
+  title: string
+  fullText: string // полный текст (будет разбит на кликабельные фразы)
+  phrases: FlagPhrase[] // массив фраз с пометками
+  feedbackCorrect: string
+  feedbackWrong: string
+}
 // Хелпер, чтобы получать плоский список всех уроков (нужен для прогресса)
 export const allLessons = modules.flatMap((m) => m.lessons)

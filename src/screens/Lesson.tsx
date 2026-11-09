@@ -3,7 +3,10 @@ import { Scenario } from '../components/Scenario'
 import { Order } from '../components/Order'
 import { TrueFalse } from '../components/TrueFalse' 
 import { db } from '../db'
+import { ChatDialog } from '../components/ChatDialog'
+import { SwipeTask } from '../components/SwipeTask'
 import { trackEvent } from '../analytics'
+import { SpotTheFlag } from '../components/SpotTheFlag'
 
 export function Lesson() {
   const { screen, setScreen } = useStore()
@@ -56,6 +59,16 @@ trackEvent({
     case 'true-false':
       TaskComponent = <TrueFalse key={taskIndex} task={task} onAnswer={handleAnswer} />
       break
+       case 'chat': // 👈 новый case
+      TaskComponent = <ChatDialog key={taskIndex} task={task} onAnswer={handleAnswer} />
+      break
+      case 'spot-the-flag':
+  TaskComponent = <SpotTheFlag key={taskIndex} task={task} onAnswer={handleAnswer} />
+  break
+      case 'swipe':
+  TaskComponent = <SwipeTask key={taskIndex} task={task} onAnswer={handleAnswer} />
+  break
+  
     default:
       // TypeScript здесь поймёт, что все типы исчерпаны, но для безопасности:
       TaskComponent = <div className="text-red-400 p-4">Неизвестный тип задания</div>
