@@ -2822,6 +2822,11 @@ $('streetSvg').addEventListener('click', e => {
 document.addEventListener('click', e => { if (e.target.closest('[data-street]')) { audio(); sfx.tap(); goTab('street'); } });
 makeSnow();
 
+/* Офлайн: после первого открытия по ссылке приложение работает без интернета */
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+
 hydrateCats();
 makePetals();
 makeBubbles();
