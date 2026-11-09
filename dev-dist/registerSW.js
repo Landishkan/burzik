@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/burzik/dev-sw.js?dev-sw', { scope: '/burzik/', type: 'classic' })

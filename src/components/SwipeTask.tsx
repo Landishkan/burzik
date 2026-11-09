@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { SwipeTask, SwipeCard } from '../content'
+import type { SwipeTask } from '../content'
 
 interface SwipeTaskProps {
   task: SwipeTask

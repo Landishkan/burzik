@@ -12,7 +12,7 @@ export function SpotTheFlag({ task, onAnswer }: SpotTheFlagProps) {
   const [showFeedback, setShowFeedback] = useState(false)
 
   const totalFlags = task.phrases.filter((p) => p.isFlag).length
-  const allFound = foundFlags.size === totalFlags
+ 
 
   const handlePhraseClick = (phrase: FlagPhrase) => {
     if (foundFlags.has(phrase.id) || wrongClicks.has(phrase.id)) return
