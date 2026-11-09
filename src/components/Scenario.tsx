@@ -77,7 +77,7 @@ export function Scenario({ task, onAnswer }: Props) {
           <div className="max-w-2xl mx-auto flex items-start gap-4 mb-4">
             {/* Бурзик */}
             <img 
-              src="/burzik.png" 
+              src="/burzik/burzik.png"
               alt="Бурзик" 
               className="w-20 h-20 object-contain flex-shrink-0" 
             />

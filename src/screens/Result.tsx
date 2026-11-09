@@ -30,7 +30,7 @@ export function Result() {
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
       {/* Бурзик */}
-      <img src="/burzik.png" alt="Бурзик" className="w-32 h-32 mb-6 animate-bounce" />
+      <img src="/burzik/burzik.png" alt="Бурзик" className="w-32 h-32 mb-6 animate-bounce" />
       
       <h1 className="text-3xl font-bold text-emerald-400 mb-2">Урок пройден!</h1>
       <p className="text-slate-400 mb-8">Ты отлично справился с заданиями</p>

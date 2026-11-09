@@ -39,7 +39,7 @@ const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'empty'>('id
       </header>
 
       <div className="flex-1 flex flex-col items-center justify-center max-w-md mx-auto w-full">
-        <img src="/burzik.png" alt="Бурзик" className="w-24 h-24 mb-6" />
+        <img src="/burzik/burzik.png" alt="Бурзик" className="w-24 h-24 mb-6" />
         
         <h2 className="text-xl font-bold text-white mb-2 text-center">Введи код восстановления</h2>
         <p className="text-slate-400 text-center mb-8">

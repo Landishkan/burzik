@@ -86,7 +86,7 @@ export function Order({ task, onAnswer }: Props) {
           `}
         >
           <div className="max-w-2xl mx-auto flex items-start gap-4 mb-4">
-            <img src="/burzik.png" alt="Бурзик" className="w-20 h-20 object-contain flex-shrink-0" />
+            <img src="/burzik/burzik.png" alt="Бурзик" className="w-20 h-20 object-contain flex-shrink-0" />
             <div className="flex-1 pt-2">
               <h3 className={`text-2xl font-bold mb-1 ${isCorrect ? 'text-emerald-400' : 'text-amber-400'}`}>
                 {isCorrect ? 'Всё верно!' : 'Не совсем так'}
