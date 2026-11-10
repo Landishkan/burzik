@@ -30,9 +30,18 @@ const activeIndex = availableLessons.findIndex((l) => !completedIds.has(l.id))
           <img src="/burzik/burzik.png" alt="Бурзик" className="w-8 h-8 rounded-full" />
           <h1 className="text-xl font-bold text-white">Бурзик</h1>
         </div>
-        <div className="flex items-center gap-2 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
-          <span className="text-orange-500">🔥</span>
-          <span className="font-bold text-white">1</span>
+        <div className="flex items-center gap-2">
+          {/* Переход в прототип «Агентство Бурзика» (public/agentstvo) */}
+          <a
+            href={`${import.meta.env.BASE_URL}agentstvo/index.html`}
+            className="px-3 py-1 rounded-full bg-sky-600 hover:bg-sky-500 text-white text-sm font-bold border-b-2 border-sky-800 transition-all"
+          >
+            Агентство
+          </a>
+          <div className="flex items-center gap-2 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+            <span className="text-orange-500">🔥</span>
+            <span className="font-bold text-white">1</span>
+          </div>
         </div>
       </header>
 
