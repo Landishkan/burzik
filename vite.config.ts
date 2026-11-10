@@ -28,6 +28,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // Агентство — отдельная страница, её не подменяем основным приложением
+        navigateFallbackDenylist: [/\/agentstvo\//],
       },
        devOptions: {
         enabled: true

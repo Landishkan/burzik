@@ -542,6 +542,8 @@ body.tabs .tabbar { display: grid; }
 .chips { display: flex; gap: 6px; }
 .chip { padding: 6px 10px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); font-weight: 900; font-size: 13px; }
 .chip i { font-style: normal; }
+.chip.back-main { color: var(--text); text-decoration: none; }
+.chip.back-main[hidden] { display: none; }
 .path-scroll { padding-bottom: 30px; overflow-x: hidden; }
 .unit { border-radius: var(--radius); padding: 14px 16px; margin: 16px 0 6px; background: var(--uc); color: var(--uink); box-shadow: 0 5px 0 color-mix(in srgb, var(--uc) 55%, #000); }
 .unit b { display: block; font-family: var(--font-display); font-size: 16px; line-height: 1.35; }
@@ -807,7 +809,7 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
   <section class="screen on" id="path">
     <div class="topbar">
       <div class="logo"><svg class="mini-cat cat-svg" data-cat="head" viewBox="0 0 140 160"></svg><b>Бурзик</b></div>
-      <div class="chips"><span class="chip"><svg class="ic"><use href="#i-flame"/></svg> 3</span><span class="chip"><svg class="ic"><use href="#i-star"/></svg> <i id="xpChip">0</i></span></div>
+      <div class="chips"><a class="chip back-main" id="backMain" href="../" hidden>‹ Бурзик</a><span class="chip"><svg class="ic"><use href="#i-flame"/></svg> 3</span><span class="chip"><svg class="ic"><use href="#i-star"/></svg> <i id="xpChip">0</i></span></div>
     </div>
     <div class="scroll path-scroll" id="pathScroll"></div>
   </section>
@@ -2821,6 +2823,9 @@ $('streetSvg').addEventListener('click', e => {
 });
 document.addEventListener('click', e => { if (e.target.closest('[data-street]')) { audio(); sfx.tap(); goTab('street'); } });
 makeSnow();
+
+/* Если прототип открыт с сайта основного «Бурзика», показываем дорогу обратно */
+if (location.pathname.includes('/agentstvo/')) $('backMain').hidden = false;
 
 /* Офлайн: после первого открытия по ссылке приложение работает без интернета */
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
