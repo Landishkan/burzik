@@ -15,29 +15,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-      
-      - run: npm ci
-      - run: npm run build
-      
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
     steps:
+      - uses: actions/checkout@v4
+
+      # Если в site/content.js пропала запятая или кавычка, выкладка остановится и сайт останется прежним
+      - name: Проверка уроков
+        run: |
+          node -e "
+          const fs = require('fs');
+          global.window = {};
+          new Function('window', fs.readFileSync('site/content.js', 'utf8'))(window);
+          const c = window.PIXEL_CONTENT;
+          if (!Array.isArray(c) || !c.length) throw new Error('В content.js нет списка уроков');
+          const lessons = c.reduce((n, m) => n + m.lessons.length, 0);
+          console.log('Уроки в порядке: разделов ' + c.length + ', уроков ' + lessons);
+          "
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
       - id: deployment
         uses: actions/deploy-pages@v4
