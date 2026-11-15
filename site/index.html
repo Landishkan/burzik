@@ -9,6 +9,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script> //добавлено 12.11
 <style>
 /* Шрифты лежат в папке fonts, внешних запросов нет */
 @font-face { font-family: 'Comfortaa'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/comfortaa-0-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
@@ -1039,6 +1040,246 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .petals { display: none !important; }
 }
+/* начало для огонька */
+.pf-stat {
+  text-align: center;
+  padding: 1rem;
+  background: var(--card);
+  border-radius: 12px;
+}
+
+.pf-stat b {
+  display: block;
+  font-size: 2rem;
+  color: var(--accent2);
+  margin-bottom: 0.25rem;
+}
+
+.pf-stat span {
+  color: var(--text-dim);
+  font-size: 0.875rem;
+}
+
+.streak-hot b {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+/* конец для огонька */
+/* Никнейм */
+.pf-nick-block {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.pf-nick-label {
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pf-nick-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+#pfNickText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.pf-nick-edit {
+  background: var(--accent);
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.pf-nick-edit:hover {
+  background: var(--accent2);
+  transform: scale(1.1);
+}
+
+.pf-nick-edit:active {
+  transform: scale(0.95);
+}
+
+/* Модальное окно для никнейма */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: none; /* ← по умолчанию скрыта */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.modal.open {
+  display: flex; /* ← показываем только классом */
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal.open .modal-box {
+  animation: slideUp 0.25s ease-out;
+}
+
+.modal-box {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  animation: slideUp 0.3s;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-box h2 {
+  color: var(--text);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.modal-desc {
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.nick-input {
+  width: 100%;
+  background: var(--bg);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--text);
+  font-size: 1.125rem;
+  text-align: center;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.nick-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.nick-input::placeholder {
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+.nick-hint {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-secondary,
+.btn-primary {
+  flex: 1;
+  padding: 0.875rem;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-secondary:hover,
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary:active,
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
 </head>
 <body>
@@ -1217,6 +1458,20 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
       </div>
       <div class="section-title">Напарник</div>
       <div class="pf-pets" id="pfPets"></div>
+     <!-- добавлено 12.11 -->
+      <!-- Никнейм -->
+<div class="pf-nick-block">
+  <div class="pf-nick-label">Твой позывной</div>
+  <div class="pf-nick-display" id="pfNickDisplay">
+    <span id="pfNickText">Без имени</span>
+    <button class="pf-nick-edit" id="pfNickEdit" title="Изменить">✎</button>
+  </div>
+</div>
+
+
+      <div class="pf-stat">    <!-- добавлено 12.11 -->
+  <b id="pfStreak">0</b><span>огонек 🔥</span>    <!-- добавлено 12.11 -->
+</div>   <!-- добавлено 12.11 -->
       <button class="ghost" id="pfInstall" hidden>Установить приложение на телефон</button>
       <div class="section-title">Папка улик · <span id="clueCount"></span></div>
       <div class="clues-list" id="cluesList"></div>
@@ -1601,6 +1856,20 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
       <button class="ghost" id="laterBtn">Позже</button>
     </div>
   </section>
+<!-- модальное окно добавлено 12.11-->
+   <div class="modal" id="nickModal">   <!-- без hidden -->
+    <div class="modal-box">
+      <div class="modal-close" id="nickModalClose">✕</div>
+      <h2>Придумай позывной</h2>
+      <p class="modal-desc">Это имя будет видно только тебе. Можешь использовать любой ник, даже с эмодзи!</p>
+      <input type="text" id="nickInput" class="nick-input" maxlength="20" placeholder="Например: Ландыш_01" autocomplete="off">
+      <div class="nick-hint">От 2 до 20 символов</div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="nickCancel">Отмена</button>
+        <button class="btn-primary" id="nickSave" disabled>Сохранить</button>
+      </div>
+    </div>
+  </div>
   <nav class="tabbar" id="tabbar">
     <button data-tab="path"><em><svg class="ic"><use href="#i-home"/></svg></em><span>Учиться</span></button>
     <button data-tab="street"><em><svg class="ic"><use href="#i-lantern"/></svg></em><span>Улица</span></button>
@@ -3001,10 +3270,23 @@ function markActive() {
   if (note) setTimeout(() => toast(note), 1200);
 }
 function renderStreak() {
-  const st = store.get('streak', { n: 0, last: 0 });
-  const alive = dayNum() - st.last <= 2;
-  $('streakNum').textContent = alive ? st.n : 0;
-  $('streakChip').classList.toggle('dim', !(alive && st.last === dayNum()));
+  // Получаем данные. Это может быть объект { n, last, frozeAt } или просто число
+  const st = store.get('streak', { n: 0, last: 0, frozeAt: 0 });
+  
+  // Извлекаем именно число дней (свойство n)
+  const streakCount = typeof st === 'object' && st !== null ? st.n : st;
+
+  // Чип в верхней панели (topbar)
+  const chipNum = $('streakNum');
+  if (chipNum) chipNum.textContent = streakCount;
+
+  // Блок в профиле
+  const pfStreak = $('pfStreak');
+  if (pfStreak) {
+    pfStreak.textContent = streakCount;
+    const wrap = pfStreak.parentElement;
+    if (wrap) wrap.classList.toggle('streak-hot', streakCount >= 3);
+  }
 }
 function finishLesson() {
   markActive();
@@ -3174,16 +3456,134 @@ function progressList() {
   const d = store.get('lessonsDone', {});
   return Object.entries(d).map(([id, v]) => ({ id, completedAt: v.at, score: v.score, total: v.total }));
 }
-function generateCode(list) {
-  try { return 'BUR-' + (btoa(JSON.stringify(list)).match(/.{1,4}/g) || []).join('-'); } catch (e) { return 'BUR-ERROR'; }
+// доабавлено 12.11 - замена старых generateCode и restoreCode
+// === СОСТОЯНИЕ ИГРЫ (собираем всё в один объект) ===
+function getFullGameState() {
+  const lessons = store.get('lessonsDone', {});
+  const progress = Object.entries(lessons).map(([id, v]) => ({ 
+    id, 
+    s: v.score,
+    a: v.at
+  }));
+
+  return {
+    v: 1,
+    n: store.get('nickname', ''),
+    // Сохраняем весь объект streak, а не просто число!
+    f: store.get('streak', { n: 0, last: 0, frozeAt: 0 }), 
+    st: store.get('step', 0),
+    p: PET.id,
+    c: store.get('clues', []),
+    sv: store.get('solved', []),
+    ls: progress
+  };
 }
+
+// === ГЕНЕРАЦИЯ КОДА ===
+function generateCode() {
+  try {
+    const state = getFullGameState();
+    const json = JSON.stringify(state);
+    // Сжимаем lz-string → короткий Base64
+    const compressed = LZString.compressToBase64(json);
+    return 'PIX-' + compressed;
+  } catch (e) { 
+    console.error('Ошибка генерации кода:', e);
+    return 'PIX-ERROR'; 
+  }
+}
+
+// === ВОССТАНОВЛЕНИЕ ИЗ КОДА ===
 function restoreCode(code) {
   try {
-    const clean = code.replace('BUR-', '').replace(/-/g, '').trim();
-    if (!clean) return null;
-    const arr = JSON.parse(atob(clean + '='.repeat((4 - clean.length % 4) % 4)));
-    return Array.isArray(arr) ? arr : null;
-  } catch (e) { return null; }
+    if (!code || typeof code !== 'string') return false;
+    const clean = code.trim().replace(/^PIX-/, '').replace(/-/g, '');
+    if (!clean) return false;
+
+    // Распаковываем
+    const json = LZString.decompressFromBase64(clean);
+    if (!json) return false;
+
+    const state = JSON.parse(json);
+    if (!state || typeof state !== 'object') return false;
+
+    // Поддержка старой версии (если вдруг введут старый BUR-код)
+    // и новой PIX-версии
+    const version = state.v || 0;
+
+    // === Никнейм ===
+    if (typeof state.n === 'string' && state.n.trim()) {
+      store.set('nickname', state.n.trim().slice(0, 20));
+    }
+
+    // === Огонёк и дата ===
+        // === Огонёк (может быть объектом или числом для обратной совместимости) ===
+    if (typeof state.f === 'object' && state.f !== null && typeof state.f.n === 'number') {
+      store.set('streak', state.f);
+    } else if (typeof state.f === 'number') {
+      // Если в старом коде было просто число, превращаем его в новый формат
+      const dayNum = (d = new Date()) => Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000);
+      store.set('streak', { n: state.f, last: dayNum(), frozeAt: 0 });
+    }
+    if (typeof state.d === 'string') store.set('lastActiveDate', state.d);
+
+    // === Шаг на карте ===
+    if (typeof state.st === 'number') store.set('step', state.st);
+
+    // === Питомец ===
+    if (typeof state.p === 'string' && SPECIES[state.p]) {
+      setPet(state.p); // твоя существующая функция смены питомца
+    }
+
+    // === Улики ===
+    if (Array.isArray(state.c)) {
+      const validClues = state.c.filter(k => k in CLUES);
+      store.set('clues', validClues);
+    }
+
+    // === Решённые кейсы (фонари) ===
+    if (Array.isArray(state.sv)) {
+      store.set('solved', state.sv);
+    }
+
+    // === Уроки ===
+    if (Array.isArray(state.ls) && state.ls.length) {
+      const knownLessons = MODULES.flatMap(m => m.lessons);
+      const done = {};
+      let maxStep = 0;
+
+      state.ls.forEach(item => {
+        if (!item || !item.id) return;
+        const lesson = knownLessons.find(l => l.id === item.id);
+        if (!lesson) return;
+
+        done[item.id] = {
+          score: typeof item.s === 'number' ? item.s : 0,
+          total: lesson.total || 1,
+          at: typeof item.a === 'number' ? item.a : Date.now()
+        };
+
+        // Считаем максимальный шаг на карте
+        const nodes = pathNodes();
+        for (let i = 0; i < nodes.length; i++) {
+          if (nodes[i].lesson && nodes[i].lesson.id === item.id) {
+            if (i + 1 > maxStep) maxStep = i + 1;
+          }
+        }
+      });
+
+      store.set('lessonsDone', done);
+      if (maxStep > 0) store.set('step', maxStep);
+
+      return true;
+    }
+
+    // Если уроков нет, но другие данные есть — тоже считаем успехом
+    return !!(state.n || state.c?.length || state.sv?.length);
+  } catch (e) { 
+    console.error('Ошибка восстановления:', e);
+    return false; 
+  }
 }
 function renderClues() {
   const have = store.get('clues', []);
@@ -3205,9 +3605,10 @@ function renderProfile() {
     ? list.map(p => { const l = lessons.find(x => x.id === p.id); return l ? `<div class="pf-item">${esc(l.title)}<span>${p.score}/${p.total} · ${new Date(p.completedAt).toLocaleDateString('ru-RU')}</span></div>` : ''; }).join('')
     : '<div class="pf-empty">Пока ничего не пройдено. Начни обучение!</div>';
   $('pfStatus').textContent = ''; $('pfStatus').className = 'pf-status';
+   renderStreak();
 }
 function showMyCode() {
-  const code = generateCode(progressList());
+  const code = generateCode(); 
   $('pfCode').textContent = code;
   $('pfCode').hidden = false;
   sfx.combo(2); vibe(15);
@@ -4451,14 +4852,27 @@ $('pickGrid').addEventListener('click', e => {
   $('pickNote').textContent = sp.kind + ' ' + sp.name + ' пойдёт с тобой';
   $('pickGo').disabled = false;
 });
+let pickPendingGo = false; // флаг: ждём ввод ника, чтобы продолжить
+
 $('pickGo').onclick = () => {
   if (!picked) return;
+
   setPet(picked, true);
   sfx.combo(2); vibe([20, 40, 60]);
-  goTab('path');
-  setTimeout(() => toast(PET.name + ' с тобой. Можно сменить в профиле'), 400);
-};
 
+  const nick = store.get('nickname', '');
+
+  if (!nick) {
+    // Ника нет → запоминаем, что надо продолжить, и просим позывной
+    pickPendingGo = true;
+    openNickModal();
+  } else {
+    // Ник есть → сразу на дорожку
+    pickPendingGo = false;
+    goTab('path');
+    setTimeout(() => toast(PET.name + ' с тобой. Можно сменить в профиле'), 400);
+  }
+};
 /* Ошибки в content.js: всегда в консоль, плашкой — только при ?check и на локальном компьютере */
 if (CONTENT_ISSUES.length) {
   console.error('Ошибки в content.js:\n' + CONTENT_ISSUES.join('\n'));
@@ -4502,6 +4916,168 @@ makeMotes();
 applyTheme(theme);
 if (store.get('pet', null)) goTab('path'); else openPick();
 migrateOldProgress();
+ // добавлено 12.11
+// Получаем текущую дату в формате "YYYY-MM-DD" по UTC (безопасно от смены часовых поясов)
+function getTodayUTC() {
+  return new Date().toISOString().split('T')[0];
+}
+
+// Главная функция обновления огонька. Вызывать ПОСЛЕ успешного прохождения урока!
+function updateStreakOnLessonComplete() {
+  const today = getTodayUTC();
+  const lastDate = store.get('lastActiveDate', '');
+  let streak = store.get('streak', 0);
+
+  // 1. Если сегодня уже обновляли — ничего не делаем
+  if (lastDate === today) {
+    return { updated: false, streak: streak };
+  }
+
+  let newStreak = 1;
+  let status = 'started'; // 'started' (начали новую), 'continued' (продолжили), 'lost' (сбросилась)
+
+  if (lastDate) {
+    // Считаем разницу в днях между последней активностью и сегодня
+    const last = new Date(lastDate + 'T00:00:00Z');
+    const current = new Date(today + 'T00:00:00Z');
+    const diffTime = Math.abs(current - last);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+    if (diffDays === 1) {
+      // Прошел ровно 1 день — серия продолжается!
+      newStreak = streak + 1;
+      status = 'continued';
+    } else {
+      // Прошло 2 и более дней — серия прервана, начинаем с 1
+      newStreak = 1;
+      status = 'lost';
+    }
+  }
+
+  // Сохраняем обновленные данные
+  store.set('lastActiveDate', today);
+  store.set('streak', newStreak);
+
+  return { updated: true, streak: newStreak, status: status };
+}
+// === 12.11 ===
+function renderStreak() {
+  const streak = store.get('streak', 0);
+
+  // Обновляем чип в верхней панели (topbar)
+  const chipNum = $('streakNum');
+  if (chipNum) chipNum.textContent = streak;
+
+  // Обновляем блок в профиле
+  const pfStreak = $('pfStreak');
+  if (pfStreak) {
+    pfStreak.textContent = streak;
+    const wrap = pfStreak.parentElement;
+    if (wrap) {
+      if (streak >= 3) {
+        wrap.classList.add('streak-hot');
+      } else {
+        wrap.classList.remove('streak-hot');
+      }
+    }
+  }
+}
+
+// === УПРАВЛЕНИЕ НИКНЕЙМОМ ===
+
+function renderNick() {
+  const nick = store.get('nickname', '');
+  const display = $('pfNickText');
+  if (display) {
+    display.textContent = nick || 'Без имени';
+  }
+}
+
+function openNickModal() {
+  const modal = $('nickModal');
+  const input = $('nickInput');
+  const currentNick = store.get('nickname', '');
+
+  input.value = currentNick || '';
+  modal.classList.add('open');
+
+  setTimeout(() => {
+    input.focus();
+    input.setSelectionRange(input.value.length, input.value.length);
+  }, 100);
+
+  validateNick();
+}
+
+function closeNickModal() {
+  $('nickModal').classList.remove('open');
+}
+
+function validateNick() {
+  const input = $('nickInput');
+  const saveBtn = $('nickSave');
+  const value = input.value.trim();
+  
+  // Минимум 2 символа, максимум 20
+  const isValid = value.length >= 2 && value.length <= 20;
+  saveBtn.disabled = !isValid;
+}
+
+function saveNick() {
+  const input = $('nickInput');
+  const nick = input.value.trim();
+  if (nick.length < 2 || nick.length > 20) return;
+
+  store.set('nickname', nick);
+  renderNick();
+  closeNickModal();
+
+  toast('Позывной сохранён!');
+  sfx.combo(2);
+  vibe(15);
+
+  if (pickPendingGo) {
+    pickPendingGo = false;
+    setTimeout(() => {
+      goTab('path');
+      setTimeout(() => toast(PET.name + ' с тобой. Можно сменить в профиле'), 300);
+    }, 350);
+  }
+}
+// Обработчики событий для никнейма
+$('pfNickEdit').onclick = openNickModal;
+$('nickModalClose').onclick = closeNickModal;
+$('nickCancel').onclick = closeNickModal;
+$('nickSave').onclick = saveNick;
+
+// Валидация при вводе
+$('nickInput').addEventListener('input', validateNick);
+
+// Закрытие по Enter
+$('nickInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !$('nickSave').disabled) {
+    saveNick();
+  }
+  if (e.key === 'Escape') {
+    closeNickModal();
+  }
+});
+
+// Закрытие по клику вне модального окна
+$('nickModal').addEventListener('click', e => {
+  if (e.target === $('nickModal')) {
+    closeNickModal();
+  }
+});
+
+// Обновляем renderProfile, чтобы включал никнейм
+const originalRenderProfile = renderProfile;
+renderProfile = function() {
+  originalRenderProfile();
+  renderNick();
+};
+
+
 </script>
 </body>
 </html>
