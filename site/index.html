@@ -34,6 +34,44 @@
 @font-face { font-family: 'PT Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/pt-mono-11-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Press Start 2P'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/press-start-2p-12-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: 'Press Start 2P'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/press-start-2p-13-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+.exit-btn { flex: none; width: 36px; height: 36px; margin-left: 6px; border-radius: 50%; display: grid; place-items: center; font-size: 16px; font-weight: 900; color: var(--text); background: var(--card); border: 1px solid var(--line); box-shadow: 0 3px 0 color-mix(in srgb, var(--line) 70%, #000); touch-action: manipulation; cursor: pointer; }
+.exit-btn:active { transform: translateY(2px); box-shadow: none; }
+[data-theme="retro"] .exit-btn { border-radius: 0; }
+.leave { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 24px; background: rgba(8, 5, 4, .62); }
+.leave-box { width: 100%; max-width: 320px; padding: 20px; border-radius: 20px; background: var(--card); border: 1px solid var(--line); text-align: center; color: var(--text); }
+.leave-box b { display: block; font-size: 18px; }
+.leave-box p { margin: 6px 0 16px; color: var(--muted); font-size: 14px; }
+/* Зимний ивент: режимы погоды */
+.wx-chip { display: inline-flex; align-items: center; gap: 7px; margin-top: 8px; padding: 6px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 800; color: var(--text); background: var(--card); border: 1px solid var(--line); cursor: pointer; }
+.wx-chip:active { transform: translateY(1px); }
+.wx-ic { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.wx-ic-frost { background: radial-gradient(circle, #fff7d6 35%, #ffd166 36% 55%, transparent 56%); box-shadow: 0 0 8px #ffd166; }
+.wx-ic-snow { background: radial-gradient(circle at 30% 40%, #fff 22%, transparent 24%), radial-gradient(circle at 70% 65%, #fff 18%, transparent 20%), #7f9cc7; }
+.wx-ic-blizzard { background: repeating-linear-gradient(-20deg, #fff 0 2px, #9fb4d6 2px 5px); }
+.weather .flake.near { filter: blur(1.6px); opacity: .55; }
+.weather .flake.blz { border-radius: 3px; rotate: -22deg; animation-name: blizzard; animation-timing-function: linear; opacity: .85; }
+@keyframes blizzard { from { transform: translate(40vw, -20vh); } to { transform: translate(-70vw, 45vh); } }
+.weather .gust { left: 100%; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent); animation: gust linear infinite; }
+@keyframes gust { from { transform: translateX(0); } to { transform: translateX(-260%); } }
+.weather .whiteout { inset: 0; background: radial-gradient(120% 90% at 50% 40%, rgba(232, 240, 252, .2), rgba(232, 240, 252, .6)); animation: whiteout 5s ease-in-out infinite alternate; }
+.street-stage:has(#streetSvg:is(.t-night, .t-sunset)) .weather .whiteout { background: radial-gradient(120% 90% at 50% 40%, rgba(120, 140, 190, .12), rgba(140, 160, 205, .42)); }
+@keyframes whiteout { from { opacity: .65; } to { opacity: 1; } }
+.weather .rime { inset: 0; background: radial-gradient(140% 110% at 50% 50%, transparent 62%, rgba(225, 240, 255, .5) 100%); }
+.weather .dust { top: -8px; width: 3px; height: 3px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px #fff, 0 0 2px #cfe6ff; animation: dustFall linear infinite, twinkle ease-in-out infinite alternate; }
+@keyframes dustFall { to { transform: translate(30px, 110vh); } }
+#streetSvg .aurora path { animation: aurora 9s ease-in-out infinite alternate; }
+@keyframes aurora { from { opacity: .45; transform: translateY(0); } to { opacity: 1; transform: translateY(14px); } }
+#streetSvg .sunrays { transform-box: fill-box; transform-origin: center; animation: sunspin 40s linear infinite; }
+@keyframes sunspin { to { rotate: 360deg; } }
+#streetSvg.wx-blizzard .lantern .halo { transform-box: fill-box; transform-origin: center; scale: 1.6; }
+#streetSvg.wx-blizzard .lantern .cone { opacity: .55; }
+#streetSvg[class*="wx-"] .moth { display: none; }
+#streetSvg.wx-snow.t-day .bld, #streetSvg.wx-blizzard.t-day .bld, #streetSvg.wx-snow.t-morning .bld, #streetSvg.wx-blizzard.t-morning .bld { filter: brightness(1.45) saturate(.75); }
+#streetSvg.wx-blizzard .bld { opacity: .92; }
+#streetSvg .snowman { cursor: pointer; }
+#streetSvg .snowman .sm-hint { animation: smHint 1.4s ease-in-out infinite; }
+@keyframes smHint { 50% { transform: translateY(-6px); } }
+#streetSvg .glint { transform-box: fill-box; transform-origin: center; }
 </style>
 
 <script type="text/javascript">
@@ -1702,6 +1740,7 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
       <div class="tag">Сезон 1 · «Северный ветер»</div>
       <h1>Улица фонарей</h1>
       <div class="cs-sub" id="litCount"></div>
+      <button type="button" class="wx-chip" id="wxChip" hidden></button>
     </div>
     <div class="street-stage">
       <div class="street-wrap" id="streetWrap">
@@ -2311,6 +2350,8 @@ function loop(ts) {
 const TABS = ['path', 'street', 'profile', 'collection'];
 function show(id) {
   if (id !== 'path') purrStop();
+  if (id !== 'lesson') hideFb();
+  const lv = document.getElementById('leave'); if (lv) lv.remove();
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
   document.body.classList.toggle('tabs', TABS.includes(id));
   document.body.dataset.screen = id;
@@ -2327,6 +2368,8 @@ function finish(won) {
     $('endTitle').textContent = won ? 'Дело раскрыто!' : S.awake >= 14 ? 'Почти получилось' : 'Незнакомец оказался быстрее';
     $('endStory').innerHTML = won
       ? T('Весь 9 «Б» увидел подвох. Кто-то написал: <b>«Ребят, это же развод, не ведитесь»</b>. Тёмный_Админ вышел из чата, а {name} {happy}.')
+      : S.awake === 0 ? T('Подвох пока никто не заметил. Ничего страшного: попробуем ещё раз — {name} рядом.')
+      : S.awake < 14 ? T(`Подвох увидели <b>${S.awake} из ${TOTAL}</b>. Для начала неплохо: каждый из них теперь предупредит друга. Попробуем ещё раз — {name} верит в тебя.`)
       : T(`Подвох увидели <b>${S.awake} из ${TOTAL}</b>. Это уже много: каждый из них теперь предупредит друга. Попробуем ещё раз — {name} верит в тебя.`);
     $('sAwake').textContent = S.awake;
     $('sCombo').textContent = S.best;
@@ -2352,6 +2395,10 @@ function renderChest(gain, p) {
 
 function renderReview() {
   const ids = Object.keys(S.mistakes).sort((a, b) => S.mistakes[b] - S.mistakes[a]).slice(0, 3);
+  if (!ids.length && S.awake === 0 && S.score === 0) {
+    $('review').innerHTML = '<div class="rv">Пока ни одного ответа. Нажимай на название приёма, который заметил в сообщении.</div>';
+    return;
+  }
   if (!ids.length) {
     $('review').innerHTML = T('<div class="rv">Ни одной ошибки. {name} <b>впечатлён</b>: ты видишь приёмы с первого взгляда.</div>');
     return;
@@ -2384,8 +2431,28 @@ function initSoundButtons() {
     b.addEventListener('pointerdown', e => e.stopPropagation());
     b.addEventListener('click', () => setSound(!soundOn));
     h.appendChild(b);
+    if (h.classList.contains('hud')) {
+      const x = document.createElement('button');
+      x.className = 'exit-btn'; x.type = 'button'; x.textContent = '✕'; x.setAttribute('aria-label', 'Выйти из игры');
+      x.addEventListener('pointerdown', e => e.stopPropagation());
+      x.addEventListener('click', askLeave);
+      h.appendChild(x);
+    }
   });
   setSound(soundOn, true);
+}
+/* Выход из игры: спрашиваем, пока игра стоит на паузе (там, где она умеет паузу) */
+function askLeave() {
+  if (document.getElementById('leave')) return;
+  if (SK && SK.running) SK.paused = true;
+  const d = document.createElement('div');
+  d.id = 'leave'; d.className = 'leave';
+  d.innerHTML = '<div class="leave-box"><b>Выйти из игры?</b><p>Эта попытка не засчитается.</p><button type="button" class="cta" data-stay>Остаться</button><button type="button" class="ghost" data-out>Выйти на улицу</button></div>';
+  d.addEventListener('pointerdown', e => e.stopPropagation());
+  d.querySelector('[data-stay]').onclick = () => { d.remove(); if (SK && SK.running) SK.paused = document.hidden; };
+  d.querySelector('[data-out]').onclick = () => { d.remove(); goTab('street'); };
+  document.body.appendChild(d);
+  d.querySelector('[data-stay]').focus();
 }
 $('tSound').onclick = () => setSound(!soundOn);
 $('tVibe').onclick = () => { vibeOn = !vibeOn; store.set('vibe', vibeOn); setToggle($('tVibe'), vibeOn, 'Вибрация'); vibe(20); };
@@ -3059,7 +3126,7 @@ const quiet = () => QUIET.some(id => $(id).classList.contains('on'));
 document.addEventListener('pointerdown', e => {
   pressed = true;
   if (quiet()) { downAt = null; return; }
-  downAt = { x: e.clientX, y: e.clientY, cat: e.target.closest('svg.cat-svg') || (onWalker(e.clientX, e.clientY) ? W.el : null) };
+  downAt = { x: e.clientX, y: e.clientY, cat: e.target.closest('svg.cat-svg:not(.mini-cat)') || (onWalker(e.clientX, e.clientY) ? W.el : null) };
   lookAt(e.clientX, e.clientY);
 });
 document.addEventListener('pointermove', e => {
@@ -3067,7 +3134,7 @@ document.addEventListener('pointermove', e => {
   const hush = quiet();
   if (!hush && (e.pointerType === 'mouse' || pressed)) walkerPet(e.clientX, e.clientY);
   if (!hush && (pressed || e.pointerType === 'mouse' && e.buttons)) spark(e.clientX, e.clientY);
-  const cat = e.target.closest('svg.cat-svg');
+  const cat = e.target.closest('svg.cat-svg:not(.mini-cat)');
   if (!hush && cat && (pressed || e.pointerType === 'mouse')) petMove(cat, e.clientX, e.clientY);
   const office = document.querySelector('#home.on .office');
   if (office) {
@@ -4202,7 +4269,7 @@ function skStep(dt) {
   if (S.phase === 'walk') {
     S.cour += SK_VC * dt;
     S.stepT += dt; if (S.stepT > 0.6) { S.stepT = 0; tone(85, 0.05, 'sine', 0.035); }
-    S.score += dt * 6;
+    if (S.hold) S.score += dt * 6;
     if (S.pt >= S.next) { S.phase = 'tell'; S.pt = 0; S.fake = S.looks > 0 && Math.random() < 0.22; tone(520, 0.2, 'sine', 0.05); tone(700, 0.15, 'sine', 0.04, 0.08); vibe(12); }
   } else if (S.phase === 'tell') {
     if (S.pt >= 0.6) {
@@ -4501,8 +4568,19 @@ const CASES = {
 
 function seeded(seed) { return () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }; }
 function win(x, y, w, h, lit, cls = '') {
-  return `<rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="${lit ? '#ffcf7a' : '#1d1830'}"/>
+  const glass = `<rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="${lit ? '#ffcf7a' : '#1d1830'}"/>
     <path d="M${x + w / 2} ${y}v${h}M${x} ${y + h / 2}h${w}" stroke="#2a2238" stroke-width="2"/>`;
+  if (theme.id !== 'winter') return glass;
+  // зимой: морозные узоры по углам стекла, снег на подоконнике и над окном
+  const fr = Math.min(w, h) * 0.42;
+  return glass + `<g fill="#eaf4ff" opacity="${lit ? '.55' : '.32'}"><path d="M${x} ${y + h} v-${fr} q${fr * 0.25} ${fr * 0.55} ${fr} ${fr} Z"/><path d="M${x + w} ${y} v${fr * 0.8} q-${fr * 0.3} -${fr * 0.5} -${fr * 0.8} -${fr * 0.8} Z"/></g>
+    <path d="M${x - 4} ${y + h + 1} q2 -6 8 -6 h${w - 8} q6 0 8 6 Z" fill="#fff"/><rect x="${x - 3}" y="${y + h - 1}" width="${w + 6}" height="4" rx="2" fill="#fff"/>
+    <path d="M${x - 2} ${y - 1} q${w / 2 + 2} -6 ${w + 4} 0 Z" fill="#fff" opacity=".9"/>`;
+}
+// снежные шапки на кроне дерева: верх круга и неровный край
+function snowCap(cx, cy, r) {
+  const a = r * 0.88, b = r * 0.42;
+  return `<path d="M${cx - a} ${cy - b} A${r} ${r} 0 0 1 ${cx + a} ${cy - b} Q${cx + a * 0.6} ${cy - b + 9} ${cx + a * 0.3} ${cy - b + 2} Q${cx} ${cy - b + 12} ${cx - a * 0.3} ${cy - b + 3} Q${cx - a * 0.65} ${cy - b + 10} ${cx - a} ${cy - b} Z" fill="#fff"/>`;
 }
 function lantern(x, lit, cls = '') {
   return `<g class="lantern ${lit ? 'lit' : ''} ${cls}" transform="translate(${x} 0)">
@@ -4541,6 +4619,8 @@ function buildStreet() {
     morning: { sky: ['#7fb4e8', '#f7c9a8', '#ffe7c2'], far: '#8a93b8', side: '#8d8798', road: '#5d586b', label: 'Утро' },
     day:     { sky: ['#4fa6f0', '#a9d8ff', '#dff2ff'], far: '#93a5c9', side: '#9a96a6', road: '#676273', label: 'День' }
   }[tod];
+  const winter = theme.id === 'winter', wmode = winter ? winterMode() : '';
+  if (winter) Object.assign(P, WINTER_SKY[wmode][tod]);
   const dark = tod === 'night' || tod === 'sunset';
   const R = seeded(7);
   let stars = '', far = '';
@@ -4566,12 +4646,14 @@ function buildStreet() {
     <radialGradient id="haloG"><stop offset="0" stop-color="#ffd890" stop-opacity=".75"/><stop offset="1" stop-color="#ffd890" stop-opacity="0"/></radialGradient>
     <linearGradient id="coneG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".45"/><stop offset="1" stop-color="#ffe2a0" stop-opacity="0"/></linearGradient>
     <radialGradient id="poolG"><stop offset="0" stop-color="#ffd890" stop-opacity=".55"/><stop offset="1" stop-color="#ffd890" stop-opacity="0"/></radialGradient>
+    <linearGradient id="auroraG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5dffc4" stop-opacity="0"/><stop offset=".25" stop-color="#4dffb0" stop-opacity=".5"/><stop offset=".55" stop-color="#4dffc8" stop-opacity=".42"/><stop offset=".8" stop-color="#9a7bff" stop-opacity=".3"/><stop offset="1" stop-color="#c98bff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="auroraG2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8affd8" stop-opacity="0"/><stop offset=".45" stop-color="#7affc0" stop-opacity=".38"/><stop offset="1" stop-color="#7fb7ff" stop-opacity="0"/></linearGradient>
     <radialGradient id="moonG"><stop offset="0" stop-color="#fff2c4" stop-opacity=".5"/><stop offset="1" stop-color="#fff2c4" stop-opacity="0"/></radialGradient>
     <pattern id="awning" width="24" height="10" patternUnits="userSpaceOnUse"><rect width="12" height="10" fill="var(--accent-deep)"/><rect x="12" width="12" height="10" fill="#f6e2c4"/></pattern>
   </defs>
   <rect width="2200" height="560" fill="url(#skyG)"/>
-  ${skyArt(tod, stars)}
-  <g id="farLayer">${far}</g>
+  ${winter ? winterSky(tod, wmode, stars) : skyArt(tod, stars)}
+  <g id="farLayer"${winter && wmode === 'blizzard' ? ' opacity=".4"' : winter && wmode === 'snow' ? ' opacity=".8"' : ''}>${far}</g>
   <rect x="0" y="472" width="2200" height="30" fill="${P.side}"/>
   <path d="M0 472 H2200" stroke="#433a55" stroke-width="3"/>
   <rect x="0" y="502" width="2200" height="58" fill="${P.road}"/>
@@ -4653,9 +4735,11 @@ function buildStreet() {
     <circle cx="1265" cy="300" r="56" fill="#1f3a34"/>
     <circle cx="1228" cy="330" r="38" fill="#244540"/>
     <circle cx="1305" cy="326" r="40" fill="#1c3530"/>
-    <circle cx="1250" cy="280" r="10" fill="#fff" opacity=".9"/><circle cx="1290" cy="300" r="8" fill="#fff" opacity=".85"/><circle cx="1230" cy="320" r="7" fill="#fff" opacity=".8"/>
+    ${theme.id === 'winter' ? snowCap(1265, 300, 56) + snowCap(1228, 330, 38) + snowCap(1305, 326, 40)
+      : '<circle cx="1250" cy="280" r="10" fill="#fff" opacity=".9"/><circle cx="1290" cy="300" r="8" fill="#fff" opacity=".85"/><circle cx="1230" cy="320" r="7" fill="#fff" opacity=".8"/>'}
     <rect x="1200" y="440" width="96" height="8" rx="3" fill="#7a5532"/>
     <rect x="1200" y="424" width="96" height="7" rx="3" fill="#7a5532"/>
+    ${theme.id === 'winter' ? '<path d="M1198 425 q4 -7 12 -7 h76 q8 0 12 7 Z" fill="#fff"/><path d="M1198 441 q4 -6 12 -6 h76 q8 0 12 6 Z" fill="#fff"/><path d="M1314 446 q4 -6 10 -6 h54 q6 0 10 6 Z" fill="#fff"/>' : ''}
     <rect x="1206" y="448" width="6" height="26" fill="#3a2a20"/><rect x="1284" y="448" width="6" height="26" fill="#3a2a20"/>
     <path d="M1320 474 v-36 M1340 474 v-36 M1360 474 v-36 M1380 474 v-36 M1316 446 h70" stroke="#3a3550" stroke-width="4"/>
     ${caseTag(1265, 226, 'c3')}
@@ -4705,9 +4789,10 @@ function buildStreet() {
     ${playTag(2090, 188)}
   </g>
   <g fill="#cfc8dc"><circle class="smoke" cx="701" cy="222" r="7"/><circle class="smoke" cx="701" cy="222" r="7" style="animation-delay:-2s"/><circle class="smoke" cx="701" cy="222" r="7" style="animation-delay:-4s"/></g>
-  ${theme.id === 'winter' ? winterStreet() : ''}
+  ${winter ? winterStreet(wmode, tod) : ''}
   `;
-  $('streetSvg').setAttribute('class', 't-' + tod);
+  $('streetSvg').setAttribute('class', 't-' + tod + (winter ? ' wx-' + wmode : ''));
+  renderWxChip();
   makeWeather(theme.id);
   hydrateCats($('streetSvg'));
 
@@ -4747,7 +4832,7 @@ function skyArt(tod, stars) {
   <g class="sky-body" transform="translate(760 80)">${hit}<circle r="90" fill="#fff8d0" opacity=".45"/><circle r="36" fill="#fff4b8"/></g>`;
 }
 // зимняя тема: снег на крышах и фонарях, гирлянда на кофейне, снеговик
-function winterStreet() {
+function winterStreet(mode, tod) {
   const cols = ['#ff6b6b', '#ffd166', '#9ff0c8', '#7fc4ff'];
   return `<g>
     <path d="M28 254 L180 198 L332 254" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
@@ -4759,10 +4844,104 @@ function winterStreet() {
     <path d="M1740 252 H1970" stroke="#fff" stroke-width="8" stroke-linecap="round"/><path d="M2004 300 H2176" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
     <ellipse cx="1580" cy="470" rx="80" ry="9" fill="#fff"/><ellipse cx="1990" cy="470" rx="70" ry="9" fill="#fff"/>
     <ellipse cx="250" cy="470" rx="70" ry="9" fill="#fff"/><ellipse cx="800" cy="470" rx="90" ry="10" fill="#fff"/><ellipse cx="1240" cy="470" rx="80" ry="9" fill="#fff"/>
-    <g transform="translate(1012 0)"><circle cy="452" r="18" fill="#fff"/><circle cy="424" r="13" fill="#fff"/><circle cx="-4" cy="421" r="1.8" fill="#22304a"/><circle cx="4" cy="421" r="1.8" fill="#22304a"/>
-      <path d="M0 425 l12 3 l-12 2 Z" fill="#ff9a3c"/><path d="M-9 433 Q0 439 9 433" fill="none" stroke="#d83a3a" stroke-width="4" stroke-linecap="round"/><circle cy="446" r="1.8" fill="#22304a"/><circle cy="455" r="1.8" fill="#22304a"/></g>
+    ${mode === 'blizzard' ? `<g fill="#fff"><path d="M0 470 Q120 438 260 462 Q330 444 420 470 Z"/><path d="M1460 470 Q1560 432 1680 466 Q1740 446 1820 470 Z"/><path d="M2000 470 Q2080 444 2200 458 V470 Z"/></g>` : ''}
+    ${mode === 'frost' ? Array.from({ length: 26 }, (_, i) => { const x = 40 + i * 83 + (i * 37) % 41, y = 468 + (i % 3) * 3; return `<path class="tw glint" d="M${x} ${y - 5} L${x + 1.2} ${y - 1.2} L${x + 5} ${y} L${x + 1.2} ${y + 1.2} L${x} ${y + 5} L${x - 1.2} ${y + 1.2} L${x - 5} ${y} L${x - 1.2} ${y - 1.2} Z" fill="#fff" style="animation-delay:${(-i * 0.37).toFixed(2)}s"/>`; }).join('') : ''}
+    ${snowmanArt(mode)}
   </g>`;
 }
+/* Зимний ивент: погода дня. Каждый день своя, по календарю устройства; чип в шапке улицы листает режимы для просмотра */
+const WINTER_MODES = { snow: 'Снегопад', blizzard: 'Метель', frost: 'Мороз и солнце' };
+const WINTER_ORDER = ['snow', 'frost', 'blizzard', 'frost', 'snow', 'blizzard', 'frost'];
+let wxPreview = null;
+function winterMode() { return wxPreview || WINTER_ORDER[dayNum() % WINTER_ORDER.length]; }
+const WINTER_SKY = {
+  frost: {
+    morning: { sky: ['#7db8ef', '#ffd6c4', '#fff3e6'], far: '#a9b9d9', side: '#eef4fc', road: '#c3cfe0' },
+    day:     { sky: ['#3d97ec', '#9fd2ff', '#eaf7ff'], far: '#a7bbdc', side: '#f4f8ff', road: '#c8d3e3' },
+    sunset:  { sky: ['#283a78', '#c86f92', '#ffbf8a'], far: '#4a4b7c', side: '#c9c3dc', road: '#6e6a8a' },
+    night:   { sky: ['#030818', '#0b1d45', '#16305e'], far: '#16264d', side: '#8ea3c7', road: '#3a4867' }
+  },
+  snow: {
+    morning: { sky: ['#9fb0c8', '#d9d4dc', '#efe9ea'], far: '#a7b0c4', side: '#e7edf5', road: '#bcc6d4' },
+    day:     { sky: ['#93a8c2', '#c7d3e1', '#e9eef4'], far: '#a3b0c4', side: '#eef2f8', road: '#c0c9d6' },
+    sunset:  { sky: ['#343a62', '#857699', '#d8ada3'], far: '#4b4c6e', side: '#c2bfd2', road: '#68667e' },
+    night:   { sky: ['#0d1532', '#1d2b55', '#33466f'], far: '#1c2a50', side: '#93a3c2', road: '#3f4b68' }
+  },
+  blizzard: {
+    morning: { sky: ['#b6c2d0', '#d5dce5', '#eef1f5'], far: '#c1cad6', side: '#eef2f7', road: '#ccd4df' },
+    day:     { sky: ['#b2bfcd', '#d4dce6', '#f0f3f7'], far: '#c4cdd9', side: '#f1f4f8', road: '#d0d7e1' },
+    sunset:  { sky: ['#4a4f6e', '#8a8aa2', '#c4bcc4'], far: '#6a6d88', side: '#c7c8d6', road: '#7a7b90' },
+    night:   { sky: ['#151d36', '#28344f', '#3e4a66'], far: '#2b3753', side: '#9aa6bd', road: '#47526b' }
+  }
+};
+function winterSky(tod, mode, stars) {
+  const hit = '<circle r="60" fill="transparent"/>';
+  const cloudBank = (c, o) => `<g fill="${c}" opacity="${o}">${[[80, 70, 150], [330, 52, 170], [600, 80, 160], [880, 58, 190], [1160, 76, 170], [1430, 56, 180], [1700, 74, 160], [1980, 60, 190]].map(([x, y, r]) =>
+    `<ellipse class="cloud" cx="${x}" cy="${y}" rx="${r}" ry="${(r * 0.36).toFixed(0)}" style="animation-duration:${(160 + x / 10).toFixed(0)}s;animation-delay:-${(x / 9).toFixed(0)}s"/>`).join('')}</g>`;
+  if (mode === 'frost') {
+    if (tod === 'night') return `${stars}
+  <g class="aurora"><path d="M-40 150 C 300 60, 620 210, 980 110 S 1640 40, 2240 140" stroke="url(#auroraG)" stroke-width="70" fill="none" stroke-linecap="round"/>
+    <path d="M-40 150 C 300 60, 620 210, 980 110 S 1640 40, 2240 140" stroke="url(#auroraG)" stroke-width="16" fill="none" stroke-linecap="round" opacity=".9"/>
+    <path d="M-40 210 C 380 130, 760 250, 1180 160 S 1820 120, 2240 200" stroke="url(#auroraG2)" stroke-width="44" fill="none" stroke-linecap="round" style="animation-delay:-6s"/></g>
+  <g class="sky-body" transform="translate(1180 92)">${hit}<circle r="80" fill="url(#moonG)"/><circle r="28" fill="#f4f8ff"/><circle cx="-10" cy="-8" r="5" fill="#dde6f5"/><circle cx="9" cy="9" r="3.5" fill="#dde6f5"/></g>`;
+    if (tod === 'sunset') return `<g opacity=".45">${stars}</g>
+  <g class="sky-body" transform="translate(1040 330)">${hit}<circle r="140" fill="#ffc29a" opacity=".22"/><circle r="50" fill="#ffd8a8"/><rect x="-6" y="-170" width="12" height="340" rx="6" fill="#ffd8a8" opacity=".25"/></g>`;
+    const sx = tod === 'morning' ? 260 : 760, sy = tod === 'morning' ? 230 : 86;
+    return `<g class="sky-body" transform="translate(${sx} ${sy})">${hit}<circle r="150" fill="#fffbe6" opacity=".18"/><circle r="92" fill="#fffbe6" opacity=".35"/><circle r="38" fill="#fffdf2"/>
+    <g class="sunrays" stroke="#fffbe6" stroke-width="3" stroke-linecap="round" opacity=".55">${Array.from({ length: 12 }, (_, i) => { const a = i * Math.PI / 6; return `<path d="M${(Math.cos(a) * 54).toFixed(1)} ${(Math.sin(a) * 54).toFixed(1)} L${(Math.cos(a) * 74).toFixed(1)} ${(Math.sin(a) * 74).toFixed(1)}"/>`; }).join('')}</g></g>`;
+  }
+  if (mode === 'snow') {
+    const dim = tod === 'night'
+      ? `<g class="sky-body" transform="translate(1180 110)">${hit}<circle r="70" fill="#c9d6ff" opacity=".12"/><circle r="24" fill="#dfe6f7" opacity=".35"/></g>`
+      : `<g class="sky-body" transform="translate(760 100)">${hit}<circle r="60" fill="#fff" opacity=".22"/><circle r="30" fill="#fff" opacity=".45"/></g>`;
+    return `${dim}${cloudBank(tod === 'night' ? '#2c3a62' : tod === 'sunset' ? '#9a8ba8' : '#e6ecf3', tod === 'night' ? '.85' : '.75')}`;
+  }
+  const glow = tod === 'night' ? '#9fb1d8' : '#ffffff';
+  return `<g class="sky-body" transform="translate(760 120)">${hit}<circle r="90" fill="${glow}" opacity=".12"/></g>${cloudBank(tod === 'night' ? '#3a4766' : '#e9eef4', '.9')}`;
+}
+/* Снеговик лепится только в морозный солнечный день, по касанию, в пять шагов. Готовый стоит на улице до конца ивента */
+const SNOWMAN_STEPS = ['Катаем большой ком', 'Второй ком поменьше', 'Голова на месте', 'Нос-морковка и угольки', 'Шарф и ведро. Снеговик готов!'];
+function snowmanArt(mode) {
+  const st = store.get('snowman', 0), can = mode === 'frost' && st < 5;
+  let h = `<ellipse cx="0" cy="470" rx="${st ? 44 : 30}" ry="8" fill="#fff"/>`;
+  if (!st) h += `<path d="M-26 470 Q-18 452 0 450 Q18 452 26 470 Z" fill="#fff"/><path d="M-12 458 Q0 452 12 458" stroke="#dbe6f5" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  if (st >= 1) h += `<circle cy="448" r="22" fill="#fff"/><path d="M-20 456 Q0 470 20 456" stroke="#dbe6f5" stroke-width="4" fill="none"/>`;
+  if (st >= 2) h += `<circle cy="417" r="16" fill="#fff"/><path d="M-14 423 Q0 433 14 423" stroke="#dbe6f5" stroke-width="3" fill="none"/>`;
+  if (st >= 3) h += `<circle cy="391" r="12" fill="#fff"/>`;
+  if (st >= 4) h += `<circle cx="-4" cy="388" r="1.9" fill="#22304a"/><circle cx="4" cy="388" r="1.9" fill="#22304a"/><path d="M0 392 l13 3 l-13 2.5 Z" fill="#ff9a3c"/>
+    <circle cy="412" r="2" fill="#22304a"/><circle cy="421" r="2" fill="#22304a"/><circle cy="444" r="2.2" fill="#22304a"/>`;
+  if (st >= 5) h += `<path d="M-13 402 Q0 409 13 402" stroke="#d83a3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M8 404 l5 16" stroke="#d83a3a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-10 381 L-8 368 L8 368 L10 381 Z" fill="#5a7bb0"/><rect x="-12" y="379" width="24" height="4" rx="2" fill="#46659a"/>
+    <path d="M-15 414 L-34 400 M-28 404 L-33 396 M15 414 L34 402 M28 405 L34 398" stroke="#6b4630" stroke-width="2.6" stroke-linecap="round"/>
+    ${mode === 'blizzard' ? '<path d="M-10 369 Q0 362 10 369 Z" fill="#fff"/><path d="M-12 393 Q0 386 12 393" stroke="#fff" stroke-width="3" fill="none"/>' : ''}`;
+  if (can) h += `<g class="sm-hint"><circle cy="${st ? 380 - st * 4 : 430}" r="13" fill="var(--accent)"/><path d="M-5 ${st ? 380 - st * 4 : 430} h10 M0 ${(st ? 380 - st * 4 : 430) - 5} v10" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round"/></g>`;
+  return `<g class="snowman${can ? ' can' : ''}" transform="translate(1413 0)"><rect x="-46" y="360" width="92" height="116" fill="transparent"/>${h}</g>`;
+}
+$('streetSvg').addEventListener('click', e => {
+  const sm = e.target.closest('.snowman'); if (!sm) return;
+  audio();
+  const st = store.get('snowman', 0);
+  if (st >= 5) { sfx.tap(); vibe(10); toast('Снеговик стоит и ждёт тебя каждый день'); return; }
+  if (winterMode() !== 'frost') { sfx.tap(); toast(winterMode() === 'blizzard' ? 'В метель снег разлетается. Лепить будем в морозный солнечный день' : 'Снег сегодня рыхлый. Снеговика лепим в морозный солнечный день'); return; }
+  store.set('snowman', st + 1);
+  sfx.ok(st + 2); vibe(st === 4 ? [20, 40, 20, 40, 60] : 14);
+  toast(SNOWMAN_STEPS[st]);
+  if (st === 4) { celebrate(26); store.set('chest', Math.min(100, store.get('chest', 0) + 10)); setTimeout(() => toast('+10 баллов к сундучку'), 1600); }
+  const keep = $('streetWrap').scrollLeft; buildStreet(); $('streetWrap').scrollLeft = keep;
+});
+function renderWxChip() {
+  const c = $('wxChip'), on = theme.id === 'winter';
+  c.hidden = !on; if (!on) return;
+  const m = winterMode();
+  c.innerHTML = `<i class="wx-ic wx-ic-${m}"></i>${wxPreview ? 'Просмотр' : 'Сегодня'}: ${WINTER_MODES[m]}`;
+}
+$('wxChip').onclick = () => {
+  const order = Object.keys(WINTER_MODES), today = WINTER_ORDER[dayNum() % WINTER_ORDER.length];
+  const next = order[(order.indexOf(winterMode()) + 1) % order.length];
+  wxPreview = next === today ? null : next;
+  audio(); sfx.tap(); vibe(10);
+  const keep = $('streetWrap').scrollLeft; buildStreet(); $('streetWrap').scrollLeft = keep;
+};
 $('streetSvg').addEventListener('click', e => {
   if (!e.target.closest('.sky-body')) return;
   const order = ['morning', 'day', 'sunset', 'night'];
@@ -4783,7 +4962,7 @@ $('streetWrap').addEventListener('scroll', parallax, { passive: true });
 // погода на улице у каждой темы своя; снег только в зимней
 const WEATHER = { lamp: 'clear', mint: 'drizzle', plum: 'clear', autumn: 'leaves', ocean: 'rain', aurora: 'mist', anime: 'petals', cosmos: 'clear', retro: 'clear', noir: 'storm', winter: 'snow' };
 function makeWeather(themeId) {
-  const kind = WEATHER[themeId] || 'clear', box = $('weather');
+  const kind = themeId === 'winter' ? 'w-' + winterMode() : WEATHER[themeId] || 'clear', box = $('weather');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { box.innerHTML = ''; return; }
   const rnd = (a, b) => a + Math.random() * (b - a);
   const make = (n, fn) => Array.from({ length: n }, fn).join('');
@@ -4796,6 +4975,11 @@ function makeWeather(themeId) {
   }
   if (kind === 'petals') h = make(18, () => { const d = rnd(8, 15); return `<i class="petal" style="left:${rnd(0, 110).toFixed(0)}%;animation-duration:${d.toFixed(1)}s;animation-delay:${(-Math.random() * d).toFixed(1)}s;scale:${rnd(0.7, 1.4).toFixed(2)}"></i>`; });
   if (kind === 'leaves') h = make(16, () => { const d = rnd(8, 15); return `<i class="leaf" style="left:${rnd(0, 108).toFixed(0)}%;animation-duration:${d.toFixed(1)}s;animation-delay:${(-Math.random() * d).toFixed(1)}s;scale:${rnd(0.7, 1.3).toFixed(2)}"></i>`; });
+  if (kind === 'w-snow') h = make(44, () => { const z = rnd(2, 6), d = rnd(9, 16); return `<i class="flake" style="left:${rnd(0, 112).toFixed(0)}%;width:${z.toFixed(1)}px;height:${z.toFixed(1)}px;animation-duration:${d.toFixed(1)}s;animation-delay:${(-Math.random() * d).toFixed(1)}s;opacity:${rnd(0.55, 0.95).toFixed(2)}"></i>`; })
+    + make(6, () => { const z = rnd(9, 14), d = rnd(6, 9); return `<i class="flake near" style="left:${rnd(0, 110).toFixed(0)}%;width:${z.toFixed(1)}px;height:${z.toFixed(1)}px;animation-duration:${d.toFixed(1)}s;animation-delay:${(-Math.random() * d).toFixed(1)}s"></i>`; });
+  if (kind === 'w-blizzard') h = '<i class="whiteout"></i>' + make(130, () => { const z = rnd(1.8, 4.2), d = rnd(1.1, 2.2); return `<i class="flake blz" style="top:${rnd(-10, 90).toFixed(0)}%;left:${rnd(-10, 120).toFixed(0)}%;width:${(z * 2.8).toFixed(1)}px;height:${z.toFixed(1)}px;animation-duration:${d.toFixed(2)}s;animation-delay:${(-Math.random() * d).toFixed(2)}s"></i>`; })
+    + make(12, () => { const d = rnd(1.4, 2.6); return `<i class="gust" style="top:${rnd(5, 85).toFixed(0)}%;width:${rnd(30, 60).toFixed(0)}%;animation-duration:${d.toFixed(2)}s;animation-delay:${(-Math.random() * d).toFixed(2)}s"></i>`; });
+  if (kind === 'w-frost') h = '<i class="rime"></i>' + make(22, () => { const d = rnd(14, 24); return `<i class="dust" style="left:${rnd(0, 105).toFixed(0)}%;animation-duration:${d.toFixed(1)}s,${rnd(1.4, 3).toFixed(1)}s;animation-delay:${(-Math.random() * d).toFixed(1)}s,${(-Math.random() * 2).toFixed(1)}s"></i>`; });
   if (kind === 'mist') h = '<i class="mist"></i><i class="mist" style="bottom:0;animation-duration:22s;animation-delay:-8s"></i>';
   box.innerHTML = h;
 }
