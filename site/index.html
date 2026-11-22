@@ -1092,22 +1092,20 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
 }
 /* начало для огонька */
 .pf-stat {
-  text-align: center;
-  padding: 1rem;
-  background: var(--card);
-  border-radius: 12px;
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 10px; padding: 12px 14px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
 }
 
 .pf-stat b {
   display: block;
-  font-size: 2rem;
+  font-size: 28px; line-height: 1;
   color: var(--accent);
-  margin-bottom: 0.25rem;
 }
 
 .pf-stat span {
   color: var(--muted);
-  font-size: 0.875rem;
+  font-size: 14px; font-weight: 700;
 }
 
 .streak-hot b {
@@ -1119,60 +1117,14 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
   50% { transform: scale(1.1); }
 }
 /* конец для огонька */
-/* Никнейм */
-.pf-nick-block {
-  background: var(--card);
-  border-radius: 16px;
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.pf-nick-label {
-  color: var(--text-dim);
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.pf-nick-display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-}
-
-#pfNickText {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text);
-  word-break: break-word;
-}
-
-.pf-nick-edit {
-  background: var(--accent);
-  color: white;
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s, background 0.2s;
-}
-
-.pf-nick-edit:hover {
-  background: var(--accent2);
-  transform: scale(1.1);
-}
-
-.pf-nick-edit:active {
-  transform: scale(0.95);
-}
+/* Никнейм: та же карточка, что и остальные в профиле */
+.pf-nick-block { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: var(--radius); background: var(--card); border: 1px solid var(--line); }
+.pf-nick-name { min-width: 0; font-size: 18px; font-weight: 800; color: var(--text); word-break: break-word; }
+.pf-nick-name.empty { color: var(--muted); font-weight: 700; }
+.pf-nick-edit { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); border: 0; box-shadow: 0 3px 0 var(--accent-shadow); cursor: pointer; touch-action: manipulation; }
+.pf-nick-edit:active { transform: translateY(2px); box-shadow: none; }
+.pf-nick-edit .ic { width: 22px; height: 22px; }
+[data-theme="retro"] .pf-nick-block, [data-theme="retro"] .pf-stat, [data-theme="retro"] .pf-nick-edit { border-radius: 0; }
 
 /* Модальное окно для никнейма */
 .modal {
@@ -1211,7 +1163,7 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
   right: 1rem;
   background: none;
   border: none;
-  color: var(--text-dim);
+  color: var(--muted);
   font-size: 1.5rem;
   cursor: pointer;
   width: 32px;
@@ -1235,7 +1187,7 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
 }
 
 .modal-desc {
-  color: var(--text-dim);
+  color: var(--muted);
   font-size: 0.875rem;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -1261,12 +1213,12 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
 }
 
 .nick-input::placeholder {
-  color: var(--text-dim);
+  color: var(--muted);
   opacity: 0.5;
 }
 
 .nick-hint {
-  color: var(--text-dim);
+  color: var(--muted);
   font-size: 0.75rem;
   text-align: center;
   margin-top: 0.5rem;
@@ -1297,8 +1249,9 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
 
 .btn-primary {
   background: var(--accent);
-  color: white;
+  color: var(--accent-ink);
 }
+.btn-primary:disabled { opacity: .45; cursor: default; }
 
 .btn-secondary:hover,
 .btn-primary:hover {
@@ -1413,6 +1366,8 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
     <path d="M10.5 7 H21.5 L19.5 16 H12.5 Z" fill="#ffe6a8" stroke="#2b1d14" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M8.5 7.5 L16 2 L23.5 7.5 Z" fill="#4a4460" stroke="#2b1d14" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M13 9.5 L14 13" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 32 32"><g stroke="#2b1d14" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M7 25 L8.6 19 L21 6.6 L25.4 11 L13 23.4 Z" fill="var(--accent)"/><path d="M18.6 9 L23 13.4" fill="none"/><path d="M7 25 L12.6 23.4 L8.6 19 Z" fill="#2b1d14"/></g></symbol>
   <symbol id="i-user" viewBox="0 0 32 32"><g stroke="#2b1d14" stroke-width="2.2" stroke-linejoin="round">
     <path d="M5 29 C5 21.5 10 18 16 18 C22 18 27 21.5 27 29 Z" fill="var(--hi)"/>
     <path d="M9.5 9 L9 3 L13.5 6 M22.5 9 L23 3 L18.5 6" fill="var(--accent)"/>
@@ -1508,17 +1463,11 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
       </div>
       <div class="section-title">Напарник</div>
       <div class="pf-pets" id="pfPets"></div>
-     <!-- добавлено 12.11 -->
-      <!-- Никнейм -->
-<div class="pf-nick-block">
-  <div class="pf-nick-label">Твой позывной</div>
-  <div class="pf-nick-display" id="pfNickDisplay">
-    <span id="pfNickText">Без имени</span>
-    <button class="pf-nick-edit" id="pfNickEdit" title="Изменить">✎</button>
-  </div>
-</div>
-
-
+      <div class="section-title">Позывной</div>
+      <div class="pf-nick-block">
+        <span id="pfNickText" class="pf-nick-name empty">Придумай позывной</span>
+        <button class="pf-nick-edit" id="pfNickEdit" type="button" aria-label="Изменить позывной"><svg class="ic"><use href="#i-pencil"/></svg></button>
+      </div>
       <div class="pf-stat"><b id="pfStreak">0</b><span>огонёк · дней подряд</span></div>
       <button class="ghost" id="pfInstall" hidden>Установить приложение на телефон</button>
       <div class="section-title">Папка улик · <span id="clueCount"></span></div>
@@ -5116,7 +5065,8 @@ function renderNick() {
   const nick = store.get('nickname', '');
   const display = $('pfNickText');
   if (display) {
-    display.textContent = nick || 'Без имени';
+    display.textContent = nick || 'Придумай позывной';
+    display.classList.toggle('empty', !nick);
   }
 }
 
