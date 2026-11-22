@@ -1101,12 +1101,12 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
 .pf-stat b {
   display: block;
   font-size: 2rem;
-  color: var(--accent2);
+  color: var(--accent);
   margin-bottom: 0.25rem;
 }
 
 .pf-stat span {
-  color: var(--text-dim);
+  color: var(--muted);
   font-size: 0.875rem;
 }
 
@@ -1519,9 +1519,7 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
 </div>
 
 
-      <div class="pf-stat">    <!-- добавлено 12.11 -->
-  <b id="pfStreak">0</b><span>огонек 🔥</span>    <!-- добавлено 12.11 -->
-</div>   <!-- добавлено 12.11 -->
+      <div class="pf-stat"><b id="pfStreak">0</b><span>огонёк · дней подряд</span></div>
       <button class="ghost" id="pfInstall" hidden>Установить приложение на телефон</button>
       <div class="section-title">Папка улик · <span id="clueCount"></span></div>
       <div class="clues-list" id="cluesList"></div>
@@ -5112,73 +5110,6 @@ makeMotes();
 applyTheme(theme);
 if (store.get('pet', null)) goTab('path'); else openPick();
 migrateOldProgress();
- // добавлено 12.11
-// Получаем текущую дату в формате "YYYY-MM-DD" по UTC (безопасно от смены часовых поясов)
-function getTodayUTC() {
-  return new Date().toISOString().split('T')[0];
-}
-
-// Главная функция обновления огонька. Вызывать ПОСЛЕ успешного прохождения урока!
-function updateStreakOnLessonComplete() {
-  const today = getTodayUTC();
-  const lastDate = store.get('lastActiveDate', '');
-  let streak = store.get('streak', 0);
-
-  // 1. Если сегодня уже обновляли — ничего не делаем
-  if (lastDate === today) {
-    return { updated: false, streak: streak };
-  }
-
-  let newStreak = 1;
-  let status = 'started'; // 'started' (начали новую), 'continued' (продолжили), 'lost' (сбросилась)
-
-  if (lastDate) {
-    // Считаем разницу в днях между последней активностью и сегодня
-    const last = new Date(lastDate + 'T00:00:00Z');
-    const current = new Date(today + 'T00:00:00Z');
-    const diffTime = Math.abs(current - last);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-
-    if (diffDays === 1) {
-      // Прошел ровно 1 день — серия продолжается!
-      newStreak = streak + 1;
-      status = 'continued';
-    } else {
-      // Прошло 2 и более дней — серия прервана, начинаем с 1
-      newStreak = 1;
-      status = 'lost';
-    }
-  }
-
-  // Сохраняем обновленные данные
-  store.set('lastActiveDate', today);
-  store.set('streak', newStreak);
-
-  return { updated: true, streak: newStreak, status: status };
-}
-// === 12.11 ===
-function renderStreak() {
-  const streak = store.get('streak', 0);
-
-  // Обновляем чип в верхней панели (topbar)
-  const chipNum = $('streakNum');
-  if (chipNum) chipNum.textContent = streak;
-
-  // Обновляем блок в профиле
-  const pfStreak = $('pfStreak');
-  if (pfStreak) {
-    pfStreak.textContent = streak;
-    const wrap = pfStreak.parentElement;
-    if (wrap) {
-      if (streak >= 3) {
-        wrap.classList.add('streak-hot');
-      } else {
-        wrap.classList.remove('streak-hot');
-      }
-    }
-  }
-}
-
 // === УПРАВЛЕНИЕ НИКНЕЙМОМ ===
 
 function renderNick() {
