@@ -1296,6 +1296,67 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
     transform: translateY(0);
   }
 }
+
+/* «Шквал»: ночное крыльцо школы, окна класса, цветные приёмы и записки */
+#game { position: relative; }
+#game > * { position: relative; z-index: 1; }
+#game::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .55;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, .16), transparent) 130% 14% / 46% 2px no-repeat,
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent) 160% 38% / 38% 2px no-repeat,
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, .15), transparent) 190% 63% / 52% 2px no-repeat,
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, .1), transparent) 150% 86% / 34% 2px no-repeat;
+  animation: gameGust 6.5s linear infinite;
+}
+#game[data-wave="2"]::before { opacity: .75; animation-duration: 5s; }
+#game[data-wave="3"]::before { opacity: .9; animation-duration: 3.8s; }
+#game[data-wave="4"]::before { opacity: 1; animation-duration: 2.8s; }
+@keyframes gameGust { to { background-position: -90% 14%, -70% 38%, -110% 63%, -80% 86%; } }
+.timer { height: 14px; box-shadow: inset 0 2px 4px rgba(0, 0, 0, .35); }
+.timer i { background: linear-gradient(90deg, var(--accent-deep), var(--accent), #fff3c2); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 70%, transparent); }
+
+.classmates { position: relative; overflow: hidden; padding: 12px 12px 10px; background: linear-gradient(180deg, color-mix(in srgb, #0a0a24 70%, var(--card)), var(--card)); }
+.classmates .label { gap: 8px; }
+.classmates .label span { flex: 1; min-width: 0; line-height: 1.25; }
+.classmates .label b { flex: none; font-size: 14px; }
+.dots { position: relative; gap: 4px; padding-top: 9px; }
+.dots::before { content: ""; position: absolute; left: -4px; right: -4px; top: 0; height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--line) 85%, #000); }
+.dot { aspect-ratio: 3 / 4; border-radius: 2px; background: color-mix(in srgb, var(--dot) 70%, #05050f); border: 1px solid color-mix(in srgb, var(--line) 70%, #000); position: relative; }
+.dot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(var(--line), var(--line)) center / 1px 100% no-repeat, linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat; opacity: .55; }
+.dot.awake { background: radial-gradient(circle at 50% 80%, #fff3c2, #ffcf7a 60%, #f0a63c); border-color: #ffdca0; box-shadow: 0 0 10px 1px rgba(255, 207, 122, .75); animation: winLight .45s ease-out; }
+.dot.awake::after { background: linear-gradient(#8a5a2a, #8a5a2a) center / 1px 100% no-repeat, linear-gradient(#8a5a2a, #8a5a2a) center / 100% 1px no-repeat; opacity: .6; }
+@keyframes winLight { 0% { transform: scale(.7); filter: brightness(2.2); } 60% { transform: scale(1.25); } 100% { transform: scale(1); filter: none; } }
+[data-theme="retro"] .dot { border-radius: 0; }
+
+.board-head { display: grid; grid-template-columns: 0.8fr auto 1.2fr; align-items: center; gap: 8px; margin: 12px 0 8px; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.board-head span:first-child { text-align: center; }
+.board-head i { display: block; width: 18px; height: 2px; background: var(--line); position: relative; }
+.board-head i::after { content: ""; position: absolute; right: -1px; top: -3px; border: 4px solid transparent; border-left: 6px solid var(--line); border-right: 0; }
+.board-head span:last-child { grid-column: 3; text-align: center; }
+
+.tile.tech { flex-direction: column; justify-content: center; gap: 6px; padding: 10px 8px;
+  border-color: color-mix(in srgb, var(--tc) 60%, var(--line));
+  background: linear-gradient(160deg, color-mix(in srgb, var(--tc) 24%, var(--card)), var(--card) 75%); }
+.tech-ic { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--tc); color: #1a1411; box-shadow: 0 3px 0 color-mix(in srgb, var(--tc) 55%, #000), 0 0 14px color-mix(in srgb, var(--tc) 45%, transparent); }
+.tech-ic svg { width: 21px; height: 21px; }
+.tech-name { font-family: var(--font-display); font-weight: 900; font-size: var(--tech); line-height: 1.2; text-align: center; }
+.tile.tech.sel { border-color: var(--tc); background: linear-gradient(160deg, color-mix(in srgb, var(--tc) 42%, var(--card)), var(--card) 85%); box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 40%, transparent), 0 0 22px color-mix(in srgb, var(--tc) 40%, transparent); }
+
+.tile.msg { position: relative; gap: 5px; padding: 12px 12px 11px; border: 0; rotate: var(--rot, 0deg); color: #2a1d14;
+  background: linear-gradient(180deg, #fbf3e2, #efe3c8); box-shadow: 0 3px 0 rgba(0, 0, 0, .28), 0 9px 16px rgba(0, 0, 0, .3); }
+.tile.msg .nick { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 900; color: #7a5a3a; }
+.tile.msg .av { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 900; color: #fff; flex: none; }
+.tile.msg .mt { font-size: var(--msg); font-weight: 700; line-height: 1.3; }
+.tack { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff9a9a, #d83a3a); box-shadow: 0 2px 3px rgba(0, 0, 0, .4); }
+.tile.msg.sel { rotate: 0deg; transform: translateY(-3px) scale(1.03); background: linear-gradient(180deg, #fffaf0, #f6e8c4); box-shadow: 0 0 0 3px var(--accent), 0 0 24px color-mix(in srgb, var(--accent) 55%, transparent), 0 9px 16px rgba(0, 0, 0, .3); }
+.tile.msg.ok { background: linear-gradient(180deg, #e3fbe9, #bfeccc); box-shadow: 0 0 0 3px var(--good), 0 0 26px color-mix(in srgb, var(--good) 60%, transparent); }
+.tile.msg.no { background: linear-gradient(180deg, #ffe6e6, #f5bcbc); box-shadow: 0 0 0 3px var(--bad), 0 0 22px color-mix(in srgb, var(--bad) 50%, transparent); }
+.tile.tech.ok { border-color: var(--good); background: var(--ok-bg); }
+.tile.tech.no { border-color: var(--bad); background: var(--no-bg); }
+.tile.msg.enter { animation: noteIn .38s cubic-bezier(.2, 1.3, .4, 1); }
+@keyframes noteIn { from { opacity: 0; transform: translateY(-16px) scale(.94); } }
+[data-theme="retro"] .tile.msg { border-radius: 0; }
 </style>
 </head>
 <body>
@@ -1816,10 +1877,10 @@ button.pin-card:active { transform: rotate(0) scale(.98); }
     </div>
     <div class="timer" id="timer"><i id="timerFill"></i></div>
     <div class="classmates">
-      <div class="label"><span>Одноклассники очнулись</span><b id="awakeCount">0 / 28</b></div>
+      <div class="label"><span>Окна класса: свет там, где поняли подвох</span><b id="awakeCount">0 / 28</b></div>
       <div class="dots" id="dots"></div>
     </div>
-    <div class="hint">Сообщение → приём</div>
+    <div class="board-head"><span>Приём</span><i></i><span>Сообщение</span></div>
     <div class="board">
       <div class="col" id="colTech"></div>
       <div class="col" id="colMsg"></div>
@@ -2213,8 +2274,26 @@ function newGame() {
   $('colMsg').innerHTML = S.right.map((m, i) => msgTile(m, i)).join('');
   updateHud();
 }
-function techTile(id, i) { return `<button class="tile tech enter" data-side="L" data-i="${i}">${techById[id].name}</button>`; }
-function msgTile(m, i) { return `<button class="tile msg enter" data-side="R" data-i="${i}"><span class="nick">${m.nick}</span>${m.text}</button>`; }
+// у каждого приёма свой цвет и значок: можно узнать с одного взгляда
+const TECH_LOOK = {
+  flatter: ['#ffc247', '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/>'],
+  rush:    ['#ff7a5c', '<circle cx="12" cy="13" r="7.5"/><path d="M12 8.5V13l3 2M9.5 3h5"/>'],
+  usthem:  ['#c09bff', '<circle cx="8" cy="12" r="5"/><circle cx="16" cy="12" r="5"/>'],
+  secret:  ['#7fc4ff', '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>'],
+  data:    ['#5cf2c0', '<rect x="3.5" y="6" width="17" height="12" rx="2"/><circle cx="9" cy="11.5" r="2"/><path d="M14 10h4M14 13.5h4M6 16c.7-1.6 4.3-1.6 6 0"/>'],
+  crowd:   ['#ff8fc7', '<circle cx="8" cy="9" r="2.6"/><circle cx="16" cy="9" r="2.6"/><path d="M3 19c.5-3 2.5-4.6 5-4.6S12.5 16 13 19M11 19c.5-3 2.5-4.6 5-4.6S20.5 16 21 19"/>'],
+  bait:    ['#9ff0c8', '<rect x="4" y="9" width="16" height="11" rx="2"/><path d="M12 9v11M4 13h16M12 9c-3-4-6-2-4.5 0S12 9 12 9zM12 9c3-4 6-2 4.5 0S12 9 12 9z"/>'],
+  fear:    ['#ff6b6b', '<path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/>']
+};
+function avatarHue(nick) { let h = 0; for (const ch of nick) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; }
+function techTile(id, i) {
+  const [c, icon] = TECH_LOOK[id] || ['#ffc247', ''];
+  return `<button class="tile tech enter" data-side="L" data-i="${i}" style="--tc:${c}"><span class="tech-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icon}</svg></span><span class="tech-name">${techById[id].name}</span></button>`;
+}
+function msgTile(m, i) {
+  const hue = avatarHue(m.nick), rot = ((i % 2 ? 1 : -1) * (0.5 + ((i * 37 + m.nick.length) % 8) / 10)).toFixed(1);
+  return `<button class="tile msg enter" data-side="R" data-i="${i}" style="--rot:${rot}deg"><i class="tack"></i><span class="nick"><b class="av" style="background:hsl(${hue} 62% 52%)">${m.nick.charAt(0).toUpperCase()}</b>${m.nick}</span><span class="mt">${m.text}</span></button>`;
+}
 function tileEl(side, i) { return document.querySelector(`.tile[data-side="${side}"][data-i="${i}"]`); }
 function multiplier() { return S.streak >= 10 ? 3 : S.streak >= 5 ? 2 : 1; }
 
@@ -2227,6 +2306,7 @@ function updateHud() {
   $('flash').className = 'flash' + (mult === 2 ? ' combo2' : mult === 3 ? ' combo3' : '');
   $('awakeCount').textContent = S.awake + ' / ' + TOTAL;
   $('waveLabel').textContent = 'Волна ' + S.wave;
+  $('game').dataset.wave = Math.min(S.wave, 4);
 }
 
 function onTap(e) {
